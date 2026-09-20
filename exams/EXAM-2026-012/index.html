@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBSE - Question Paper</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Slab:wght@400;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Roboto', Arial, sans-serif; background: #f0f2f5; color: #2c3e50; font-size: 13px; line-height: 1.6; }
+  .paper-wrap { max-width: 900px; margin: 20px auto; background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,0.13); border-radius: 8px; overflow: hidden; }
+  /* ?? HEADER ?? */
+  .paper-header { background: #003366; color: #fff; padding: 28px 36px 20px; }
+  .header-top { display: flex; align-items: center; gap: 18px; margin-bottom: 14px; }
+  .org-logo { width: 72px; height: 72px; object-fit: contain; border-radius: 6px; border: 2px solid rgba(255,255,255,0.4); background: rgba(255,255,255,0.15); padding: 4px; }
+  .org-logo-placeholder { width: 72px; height: 72px; }
+  .header-text { flex: 1; text-align: center; }
+  .org-name { font-family: 'Roboto Slab', serif; font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
+  .org-tagline { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+  .org-address { font-size: 11px; opacity: 0.75; margin-top: 2px; }
+  .header-sign { width: 72px; height: 72px; object-fit: contain; }
+  .exam-title-bar { background: rgba(0,0,0,0.18); border-radius: 5px; padding: 8px 18px; margin-bottom: 12px; text-align: center; }
+  .exam-name { font-size: 17px; font-weight: 700; letter-spacing: 0.8px; }
+  .exam-meta { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; font-size: 12px; opacity: 0.92; }
+  .exam-meta span { background: rgba(255,255,255,0.15); border-radius: 4px; padding: 3px 10px; }
+  /* ?? CANDIDATE FIELDS ?? */
+  .candidate-fields { padding: 16px 36px; border-bottom: 2px solid #003366; background: #f9fafb; }
+  .candidate-table { width: 100%; border-collapse: collapse; }
+  .candidate-table td { padding: 5px 8px; font-size: 12px; }
+  .field-label { font-weight: 600; color: #003366; white-space: nowrap; width: 120px; }
+  .field-line { border-bottom: 1.5px solid #555; min-width: 160px; height: 22px; }
+  /* ?? INSTRUCTIONS ?? */
+  .instructions { background: #fffbe6; border-left: 4px solid #f0a500; padding: 12px 20px; margin: 14px 36px; border-radius: 4px; font-size: 12px; }
+  /* ?? QUESTIONS SECTION ?? */
+  .questions-section { padding: 10px 36px 30px; }
+  .section-header { background: #003366; color: #fff; padding: 8px 16px; margin: 20px 0 12px; border-radius: 5px; }
+  .section-header h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+  .question-item { margin-bottom: 16px; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 6px; background: #fdfdfd; page-break-inside: avoid; }
+  .question-item:hover { border-color: #003366; background: #f8f9ff; }
+  .question-row { display: flex; gap: 10px; align-items: flex-start; }
+  .q-num { font-weight: 700; color: #003366; min-width: 26px; font-size: 14px; }
+  .q-text { flex: 1; font-weight: 500; font-size: 13px; }
+  .q-marks { font-size: 11px; color: #666; white-space: nowrap; background: #f0f4ff; border-radius: 4px; padding: 2px 8px; }
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 20px; margin-top: 8px; padding-left: 36px; }
+  .option-item { display: flex; align-items: flex-start; gap: 6px; font-size: 12.5px; padding: 3px 0; }
+  .opt-label { font-weight: 700; color: #003366; min-width: 18px; }
+  .tf-options { display: flex; gap: 20px; margin-top: 8px; padding-left: 36px; }
+  .tf-option { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .answer-line { border-bottom: 1.5px solid #999; margin-top: 8px; margin-left: 36px; min-height: 60px; }
+  .long-answer-lines { margin-top: 8px; padding-left: 36px; }
+  .answer-lined-area { border: 1px solid #ddd; border-radius: 4px; padding: 8px; min-height: 100px; background: #fafafa; }
+  /* ?? FOOTER ?? */
+  .paper-footer { background: #003366; color: rgba(255,255,255,0.9); text-align: center; padding: 12px 20px; font-size: 11.5px; }
+  .paper-footer .footer-sign { margin-top: 8px; }
+  .footer-sign-img { height: 40px; object-fit: contain; }
+  /* ?? PRINT ?? */
+  .print-btn { position: fixed; bottom: 30px; right: 30px; background: #007bff; color: white; border: none; padding: 12px 24px; border-radius: 50px; cursor: pointer; font-size: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; font-family: inherit; font-weight: bold; }
+  .print-btn:hover { background: #0056b3; }
+  .header-qr { width: 72px; height: 72px; object-fit: contain; background: #fff; padding: 2px; border-radius: 4px; }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: #fff; }
+    .paper-wrap { box-shadow: none; margin: 0; max-width: 100%; border-radius: 0; }
+    .question-item:hover { border-color: #e2e8f0; background: #fdfdfd; }
+    .section-header, .paper-header, .paper-footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+
+</head>
+<body>
+  <div class="paper-wrap">
+  <div class="paper-header">
+    <div class="header-top">
+      <img class="org-logo" src="https://dataanalystsachin.github.io/Paper/exams/assets/logo_EXAM-2026-012.png" alt="Logo">
+      <div class="header-text">
+        <div class="org-name">Delhi Public School, R.K. Puram</div>
+        <div class="org-tagline">Service Before Self</div>
+        <div class="org-address">Sector 12, R.K. Puram</div>
+      </div>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fdataanalystsachin.github.io%2FPaper%2Fexams%2FEXAM-2026-012%2F" class="header-qr" alt="Scan for live version">
+    </div>
+    <div class="exam-title-bar">
+      <div class="exam-name">CBSE</div>
+    </div>
+    <div class="exam-meta">
+      <span><strong>Subject:</strong> Excel</span>
+      <span><strong>Date:</strong> 18-09-2026</span>
+      <span><strong>Duration:</strong> 3</span>
+      <span><strong>Max Marks:</strong> 50</span>
+    </div>
+  </div>
+
+  <div class="candidate-fields">
+    <table class="candidate-table">
+      <tr>
+        <td class="field-label">Candidate Name :</td>
+        <td class="field-line"></td>
+        <td class="field-label">Roll No. :</td>
+        <td class="field-line"></td>
+      </tr>
+      <tr>
+        <td class="field-label">Class / Section :</td>
+        <td class="field-line"></td>
+        <td class="field-label">Date :</td>
+        <td class="field-line"></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="questions-section">
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q1.</div>
+        <div class="q-text">Which Excel formula correctly adds the values in cells B2 through B10?</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-item"><span class="opt-label">A.</span> Error 2029</div>
+        <div class="option-item"><span class="opt-label">B.</span> 0</div>
+        <div class="option-item"><span class="opt-label">C.</span> Error 2029</div>
+        <div class="option-item"><span class="opt-label">D.</span> Error 2029</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q2.</div>
+        <div class="q-text">Which function returns the largest value from a range of cells?</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-item"><span class="opt-label">A.</span> MIN</div>
+        <div class="option-item"><span class="opt-label">B.</span> MAX</div>
+        <div class="option-item"><span class="opt-label">C.</span> LARGE</div>
+        <div class="option-item"><span class="opt-label">D.</span> HIGH</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q3.</div>
+        <div class="q-text">What is the primary purpose of a PivotTable in Excel?</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-item"><span class="opt-label">A.</span> To format worksheets automatically</div>
+        <div class="option-item"><span class="opt-label">B.</span> To summarize and analyze large datasets</div>
+        <div class="option-item"><span class="opt-label">C.</span> To protect a workbook from editing</div>
+        <div class="option-item"><span class="opt-label">D.</span> To convert formulas into values</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q4.</div>
+        <div class="q-text">Which area of a PivotTable is normally used to display numeric calculations such as Sum or Average?</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-item"><span class="opt-label">A.</span> Rows</div>
+        <div class="option-item"><span class="opt-label">B.</span> Columns</div>
+        <div class="option-item"><span class="opt-label">C.</span> Values</div>
+        <div class="option-item"><span class="opt-label">D.</span> Filters</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q5.</div>
+        <div class="q-text">Which Power Query operation combines rows from two or more tables with the same or compatible column structure?</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-item"><span class="opt-label">A.</span> Merge Queries</div>
+        <div class="option-item"><span class="opt-label">B.</span> Append Queries</div>
+        <div class="option-item"><span class="opt-label">C.</span> Group By</div>
+        <div class="option-item"><span class="opt-label">D.</span> Transpose</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q6.</div>
+        <div class="q-text">Which Power Query operation is used to combine two tables based on one or more matching columns?</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-item"><span class="opt-label">A.</span> Append Queries</div>
+        <div class="option-item"><span class="opt-label">B.</span> Merge Queries</div>
+        <div class="option-item"><span class="opt-label">C.</span> Split Column</div>
+        <div class="option-item"><span class="opt-label">D.</span> Fill Down</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q7.</div>
+        <div class="q-text">Which Excel function counts only cells containing numbers?</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-item"><span class="opt-label">A.</span> COUNTA</div>
+        <div class="option-item"><span class="opt-label">B.</span> COUNT</div>
+        <div class="option-item"><span class="opt-label">C.</span> COUNTIF</div>
+        <div class="option-item"><span class="opt-label">D.</span> SUM</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q8.</div>
+        <div class="q-text">In a PivotTable, which feature allows a user to filter data visually using buttons for selected categories?</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-item"><span class="opt-label">A.</span> Slicer</div>
+        <div class="option-item"><span class="opt-label">B.</span> Formula Bar</div>
+        <div class="option-item"><span class="opt-label">C.</span> Name Box</div>
+        <div class="option-item"><span class="opt-label">D.</span> Flash Fill</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q9.</div>
+        <div class="q-text">What happens when you select Close &amp; Load after completing transformations in Power Query?</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-item"><span class="opt-label">A.</span> The source data is permanently deleted</div>
+        <div class="option-item"><span class="opt-label">B.</span> The query results are loaded to the selected Excel destination</div>
+        <div class="option-item"><span class="opt-label">C.</span> All Power Query steps are removed</div>
+        <div class="option-item"><span class="opt-label">D.</span> The workbook is automatically protected</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q10.</div>
+        <div class="q-text">Which formula correctly calculates the average of values in cells C2 through C20?</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="options-grid">
+        <div class="option-item"><span class="opt-label">A.</span> Error 2029</div>
+        <div class="option-item"><span class="opt-label">B.</span> Error 2007</div>
+        <div class="option-item"><span class="opt-label">C.</span> Error 2029</div>
+        <div class="option-item"><span class="opt-label">D.</span> Error 2015</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q11.</div>
+        <div class="q-text">A PivotTable can summarize data using calculations such as Sum, Count, and Average.</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="tf-options">
+        <div class="tf-option"><input type="radio" disabled> True</div>
+        <div class="tf-option"><input type="radio" disabled> False</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q12.</div>
+        <div class="q-text">Power Query permanently changes the original source data whenever a transformation step is applied.</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="tf-options">
+        <div class="tf-option"><input type="radio" disabled> True</div>
+        <div class="tf-option"><input type="radio" disabled> False</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q13.</div>
+        <div class="q-text">The IF function can return different results depending on whether a specified logical condition is TRUE or FALSE.</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="tf-options">
+        <div class="tf-option"><input type="radio" disabled> True</div>
+        <div class="tf-option"><input type="radio" disabled> False</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q14.</div>
+        <div class="q-text">A PivotTable must always be created from manually entered data and cannot use an Excel Table as its source.</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="tf-options">
+        <div class="tf-option"><input type="radio" disabled> True</div>
+        <div class="tf-option"><input type="radio" disabled> False</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q15.</div>
+        <div class="q-text">Power Query can remove duplicate rows as part of a data-cleaning workflow.</div>
+        <div class="q-marks">[2 Marks]</div>
+      </div>
+      <div class="tf-options">
+        <div class="tf-option"><input type="radio" disabled> True</div>
+        <div class="tf-option"><input type="radio" disabled> False</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q16.</div>
+        <div class="q-text">Explain the difference between Merge Queries and Append Queries in Power Query. Give one suitable use case for each.</div>
+        <div class="q-marks">[4 Marks]</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q17.</div>
+        <div class="q-text">What is a PivotTable, and how can Rows, Columns, Values, and Filters be used to analyze a sales dataset?</div>
+        <div class="q-marks">[4 Marks]</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q18.</div>
+        <div class="q-text">Write formulas to calculate the total sales in B2:B20, the average sales in B2:B20, and the number of numeric sales entries in B2:B20.</div>
+        <div class="q-marks">[4 Marks]</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q19.</div>
+        <div class="q-text">A school has a sales-style dataset containing Date, Product, Category, Region, Quantity, and Sales Amount. Describe a complete Excel workflow using Power Query and a PivotTable to clean the data, remove duplicates, correct data types, create a summary, and analyze total sales by Category and Region. Mention the important steps in the correct sequence.</div>
+        <div class="q-marks">[4 Marks]</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q20.</div>
+        <div class="q-text">Explain how basic Excel formulas and PivotTables can be used together to analyze student performance data containing Student Name, Class, Subject, Marks, and Attendance. Include at least three appropriate formulas and explain how a PivotTable can summarize the results.</div>
+        <div class="q-marks">[4 Marks]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="paper-footer">
+    <div>*** End of Question Paper ***</div>
+    <div class="footer-sign">
+      <img class="footer-sign-img" src="https://dataanalystsachin.github.io/Paper/exams/assets/sign_EXAM-2026-012.png" alt="Signature"><br>
+      <span>Dr. A.K. Sharma</span> &nbsp;|&nbsp; Principal
+    </div>
+  </div>
+
+  </div>
+  <button class="print-btn" onclick="window.print()">&#x1F5A8; Print Paper</button>
+</body></html>
