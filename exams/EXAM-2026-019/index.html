@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mid-Term Examination - Question Paper</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Slab:wght@600;700&display=swap');
+  :root{--pc:#003366;--pc-dark:#00274D;--pc-darker:#001E3C;}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { font-family: 'Inter', Arial, sans-serif; background: #eef1f6; color: #1f2937; font-size: 13.5px; line-height: 1.65; padding-bottom: 90px; }
+  .paper-wrap { max-width: 900px; margin: 20px auto; background: #fff; box-shadow: 0 10px 32px rgba(15,23,42,0.12); border-radius: 14px; overflow: hidden; position: relative; }
+  .paper-watermark {position: absolute;top: 50%;left: 50%;z-index: 0;pointer-events: none;user-select: none;display: block;opacity: 0.10;-webkit-print-color-adjust: exact;print-color-adjust: exact;}
+  .paper-watermark-logo {width: 280px;height: 280px;max-width: 44%;max-height: 44%;object-fit: contain;display: block;transform: translate(-50%, -50%) rotate(-30deg);}
+  .paper-watermark-text {font-family: 'Roboto Slab', serif;font-weight: 800;font-size: 64px;line-height: 1;color: #475569;white-space: nowrap;letter-spacing: 5px;text-transform: uppercase;text-align: center;transform: translate(-50%, -50%) rotate(-30deg);}
+  .paper-header, .candidate-fields, .instructions, .questions-section, .paper-footer {position: relative;z-index: 1;}
+  .paper-header { background: linear-gradient(135deg, var(--pc) 0%, var(--pc-dark) 55%, var(--pc-darker) 100%); color: #fff; padding: 28px 36px 22px; position: relative; overflow: hidden; }
+  .paper-header::before { content:''; position:absolute; top:-70px; right:-70px; width:220px; height:220px; border-radius:50%; background:rgba(255,255,255,0.08); }
+  .header-top { display: flex; align-items: center; gap: 18px; margin-bottom: 16px; position: relative; z-index: 1; }
+  .org-logo { width: 68px; height: 68px; object-fit: contain; border-radius: 14px; border: 1px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.16); padding: 6px; backdrop-filter: blur(4px); flex-shrink: 0; }
+  .org-logo-placeholder { width: 68px; height: 68px; flex-shrink: 0; }
+  .header-text { flex: 1; text-align: center; min-width: 0; }
+  .org-name { font-family: 'Roboto Slab', serif; font-size: 21px; font-weight: 700; letter-spacing: 0.3px; word-wrap: break-word; }
+  .org-tagline { font-size: 11.5px; opacity: 0.9; margin-top: 3px; font-style: italic; }
+  .org-address { font-size: 10.5px; opacity: 0.78; margin-top: 3px; }
+  .header-qr { width: 64px; height: 64px; object-fit: contain; background: #fff; padding: 4px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.25); flex-shrink: 0; }
+  .exam-title-bar { background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 9px 18px; margin-bottom: 12px; text-align: center; position: relative; z-index: 1; }
+  .exam-name { font-size: 16px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; }
+  .exam-meta { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; font-size: 11px; position: relative; z-index: 1; }
+  .exam-meta span { background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.22); border-radius: 20px; padding: 4px 12px; white-space: nowrap; }
+  .candidate-fields { padding: 16px 36px; border-bottom: 1px solid #eef0f4; background: #f9fafb; }
+  .candidate-table { width: 100%; border-collapse: collapse; }
+  .candidate-table td { padding: 6px 8px; font-size: 12px; }
+  .field-label { font-weight: 700; color: var(--pc-dark); white-space: nowrap; width: 120px; }
+  .field-line { border-bottom: 1.5px solid #94a3b8; min-width: 140px; height: 22px; }
+  .instructions { background: #fffaf0; border: 1px solid #fde9c8; border-left: 4px solid #f0a500; padding: 12px 20px; margin: 16px 36px; border-radius: 10px; }
+  .instructions-title { font-size: 12px; font-weight: 700; color: #92620a; margin-bottom: 4px; }
+  .instructions-body { font-size: 12px; color: #7c5a12; line-height: 1.7; }
+  .questions-section { padding: 12px 36px 30px; }
+  .section-header { background: linear-gradient(90deg, var(--pc), var(--pc-dark)); color: #fff; padding: 9px 18px; margin: 22px 0 14px; border-radius: 8px; }
+  .section-header h3 { font-size: 12.5px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; }
+  .question-item {margin-bottom: 14px;padding: 14px 16px 14px 18px;border: 1px solid rgba(148,163,184,0.30);border-left: 3px solid var(--pc);border-radius: 10px;background: rgba(255,255,255,0.72);box-shadow: 0 2px 10px rgba(15,23,42,0.035);page-break-inside: avoid;transition: box-shadow .15s ease, background .15s ease;-webkit-print-color-adjust: exact;print-color-adjust: exact;}
+  .question-item:hover {background: rgba(248,250,255,0.74);box-shadow: 0 4px 14px rgba(15,23,42,0.08);}
+  .question-row { display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap; }
+  .q-num { font-weight: 800; color: var(--pc-dark); min-width: 26px; font-size: 13.5px; }
+  .q-text { flex: 1; min-width: 180px; font-weight: 500; font-size: 13px; color: #1e293b; }
+  .q-marks { font-size: 10.5px; font-weight: 700; color: var(--pc-dark); white-space: nowrap; background: #eef4ff; border-radius: 20px; padding: 3px 11px; margin-left: auto; }
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; margin-top: 10px; padding-left: 36px; }
+  .option-item { display: flex; align-items: flex-start; gap: 6px; font-size: 12.5px; color: #334155; padding: 3px 0; }
+  .opt-label { font-weight: 700; color: var(--pc-dark); min-width: 18px; }
+  .tf-options { display: flex; gap: 22px; margin-top: 10px; padding-left: 36px; }
+  .tf-option { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #334155; }
+  .answer-line { border-bottom: 1.5px solid #999; margin-top: 8px; margin-left: 36px; min-height: 60px; }
+  .bilingual-row { display: flex; align-items: stretch; gap: 14px; width: 100%; }
+  .bilingual-primary, .bilingual-secondary { flex: 1 1 50%; min-width: 0; }
+  .bilingual-divider { width: 1px; background: #d8dde5; flex-shrink: 0; }
+  .long-answer-lines { margin-top: 8px; padding-left: 36px; }
+  .answer-lined-area { border: 1px solid #ddd; border-radius: 8px; padding: 8px; min-height: 100px; background: #fafafa; }
+  .paper-footer { background: linear-gradient(135deg, var(--pc), var(--pc-darker)); color: rgba(255,255,255,0.92); text-align: center; padding: 16px 20px; font-size: 11px; }
+  .paper-footer .footer-sign { margin-top: 10px; }
+  .footer-sign-img { height: 38px; object-fit: contain; margin-bottom: 4px; }
+  .action-buttons { position: fixed; right: 24px; bottom: 24px; z-index: 1000;
+    display: flex; flex-direction: row; align-items: center; justify-content: flex-end;
+    gap: 12px; white-space: nowrap; }
+  .action-buttons button { position: static !important; margin: 0; height: 46px;
+    min-width: 172px; padding: 0 22px; border: none; border-radius: 50px;
+    cursor: pointer; font-size: 14px; box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    z-index: 1000; font-family: inherit; font-weight: 700;
+    white-space: nowrap; }
+  .word-btn { background: linear-gradient(135deg, #1a5276, #2471a3); color: white; }
+  .print-btn { background: linear-gradient(135deg, var(--pc), var(--pc-dark)); color: white; }
+  .action-buttons button:hover { filter: brightness(1.08); }
+  .action-buttons button:active { transform: scale(.97); }
+  @media print {
+    @page {size: A4 portrait;margin: 10mm;}
+    .action-buttons {display: none !important;}
+    body {background: #fff;padding-bottom: 0;}
+    .paper-wrap {box-shadow: none;margin: 0;max-width: 100%;border-radius: 0;overflow: visible !important;}
+    .paper-watermark {position: fixed !important;top: 50% !important;left: 50% !important;z-index: 0 !important;pointer-events: none !important;opacity: 0.12 !important;-webkit-print-color-adjust: exact !important;print-color-adjust: exact !important;}
+    .paper-watermark-logo {width: 72mm !important;height: 72mm !important;max-width: none !important;max-height: none !important;object-fit: contain !important;transform: translate(-50%, -50%) rotate(-30deg) !important;}
+    .paper-watermark-text {font-size: 18mm !important;line-height: 1 !important;letter-spacing: 2mm !important;white-space: nowrap !important;color: #475569 !important;transform: translate(-50%, -50%) rotate(-30deg) !important;}
+    .question-item {background: rgba(255,255,255,0.72) !important;-webkit-print-color-adjust: exact;print-color-adjust: exact;}
+    .question-item:hover {background: rgba(255,255,255,0.72) !important;box-shadow: none;}
+    .section-header, .paper-header, .paper-footer {-webkit-print-color-adjust: exact;print-color-adjust: exact;}
+  }
+  @media (max-width: 640px) {
+    body { font-size: 12.5px; padding-bottom: 120px; }
+    .paper-wrap { margin: 0; border-radius: 0; padding-bottom: 0; }
+    .paper-header { padding: 20px 16px 18px; }
+    .header-top { gap: 12px; }
+    .org-logo, .org-logo-placeholder, .header-qr { width: 48px; height: 48px; }
+    .org-name { font-size: 16px; }
+    .exam-name { font-size: 13.5px; }
+    .exam-meta span { font-size: 10px; padding: 3px 9px; }
+    .candidate-fields, .instructions, .questions-section { padding-left: 16px; padding-right: 16px; }
+    .instructions { margin-left: 16px; margin-right: 16px; }
+    .candidate-table, .candidate-table tbody, .candidate-table tr { display: block; width: 100%; }
+    .candidate-table tr { display: grid; grid-template-columns: 125px minmax(0, 1fr); column-gap: 10px; align-items: center; margin-bottom: 8px; }
+    .candidate-table td { display: block; width: auto !important; padding: 5px 0; box-sizing: border-box; }
+    .field-label { width: auto !important; margin: 0; font-size: 12.5px; line-height: 1.3; white-space: nowrap; }
+    .field-line { display: block; width: auto !important; min-width: 0; height: 21px; margin: 0; border-bottom-width: 1.5px; }
+    .questions-section { padding-bottom: 120px; }
+    .question-item { padding: 12px 12px 13px 14px; margin-bottom: 12px; overflow: visible; }
+    .question-row { gap: 6px; align-items: flex-start; }
+    .q-num { min-width: 28px; font-size: 13px; }
+    .q-text { min-width: 0; font-size: 13.5px; line-height: 1.5; overflow-wrap: anywhere; word-break: normal; }
+    .q-marks { margin-left: 0; font-size: 10px; padding: 3px 8px; }
+    .options-grid { grid-template-columns: 1fr; padding-left: 4px; margin-top: 10px; gap: 7px; width: 100%; }
+    .option-item { min-width: 0; font-size: 13px; line-height: 1.45; overflow-wrap: anywhere; word-break: normal; }
+    .opt-label { flex: 0 0 20px; min-width: 20px; }
+    .tf-options { padding-left: 4px; gap: 14px; flex-wrap: wrap; }
+    .action-buttons { left: 12px; right: 12px; bottom: 12px; gap: 8px; justify-content: stretch; }
+    .action-buttons button { flex: 1 1 0; min-width: 0; width: auto; height: 44px; padding: 0 8px; font-size: 12px; }
+    .paper-watermark-logo {width: 210px;height: 210px;max-width: 58vw;max-height: 58vw;}
+    .paper-watermark-text {font-size: 36px;letter-spacing: 3px;}
+    .bilingual-row { flex-direction: column; gap: 8px; }
+    .bilingual-divider { width: 100%; height: 1px; }
+  }
+</style>
+
+</head>
+<body>
+  <div class="paper-wrap">
+    <img class="paper-watermark paper-watermark-logo" src="https://dataanalystsachin.github.io/Paper/exams/assets/logo_EXAM-2026-019.png" alt="" aria-hidden="true">
+
+  <div class="paper-header">
+    <div class="header-top">
+      <img class="org-logo" src="https://dataanalystsachin.github.io/Paper/exams/assets/logo_EXAM-2026-019.png" alt="Logo">
+      <div class="header-text">
+        <div class="org-name">Delhi Public School, R.K. Puram</div>
+        <div class="org-tagline">Service Before Self</div>
+        <div class="org-address">Sector 12, R.K. Puram</div>
+      </div>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWAQMAAAAGz+OhAAAABlBMVEX///8AAABVwtN+AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABrUlEQVRIibWWMa6DMBBEF1G49A1+LoLgWimQQKLItYi4CNzApQvE/Nk1iVKkwg4VvEgxzD7vWuTLNQAQtxzeTYcEx6eYxe4iN/+Yb4h9t4qbRTLZcNxE6kOk7xDcgvAb5rFswY36AkWYfoyl+7luSaZZRcbErMDQ3vldZFpLvv4WYt/yO971LcmScHuFWGMNnxJeYwMOutKIuEmlaf58eXYXVXEBHGbBY67M8etsmJ4wx0Wq1WO2dQsz6Xk7quP1k1k1VchjjrnIYI63zKXjj8WZ9G0qKuuLMMziYy7Tv1692zs2KayWS2HGyIG94nbkPor1FjKZrjGqf7ukxcozOi7mJO9WZvXnYx6jfzD/ehE/ysvJkszt1cq2d7BfqeO7OZnB7tQE7E2gf3LmUpyxvlrSNBtTVnlMxwu1A/cMn1JvKsy47dVJYKScY3MLmYxDgJGriFwMWG2el2V6sV9xLDIru8ljaW6d/dSKKsWZZm/nJmbFvOrXueky0zPIyBaCvbVc/I8Yjwr+dHwLJRi0n+oac/KlMDPH6aQeTUWaXGa1pH8eE+f5OX8Lsy/XP96lOVNHl8NyAAAAAElFTkSuQmCC" class="header-qr" alt="Scan QR">
+    </div>
+    <div class="exam-title-bar">
+      <div class="exam-name">Mid-Term Examination</div>
+    </div>
+    <div class="exam-meta">
+      <span><strong>Subject:</strong> Hindi 8th Class</span>
+      <span><strong>Date:</strong> 18-09-2026</span>
+      <span><strong>Duration:</strong> 1 Hour</span>
+      <span><strong>Total Marks:</strong> 20</span>
+    </div>
+  </div>
+
+  <div class="candidate-fields">
+    <table class="candidate-table">
+      <tr>
+        <td class="field-label" style="width:22%;">Candidate Name :</td>
+        <td class="field-line" style="width:31%;">&nbsp;</td>
+        <td class="field-label" style="width:16%;">Roll No. :</td>
+        <td class="field-line" style="width:31%;">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="field-label" style="width:22%;">Class / Section :</td>
+        <td class="field-line" style="width:31%;">&nbsp;</td>
+        <td class="field-label" style="width:16%;">Date :</td>
+        <td class="field-line" style="width:31%;">&nbsp;</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="questions-section">
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q1.</div>
+        <div class="q-text">कविता 'ध्वनि' में कवि किस प्रकार के जीवन की ओर संकेत करता है?</div>
+<span class="ans-marks">[2 Marks]</span>
+      </div>
+      <div class="options-grid">
+        <div class="option-item"><span class="opt-label">A.</span> निराशा और निष्क्रियता से भरे जीवन की ओर</div>
+        <div class="option-item"><span class="opt-label">B.</span> उत्साह, नवजीवन और जागरण से भरे जीवन की ओर</div>
+        <div class="option-item"><span class="opt-label">C.</span> केवल भौतिक सुखों से भरे जीवन की ओर</div>
+        <div class="option-item"><span class="opt-label">D.</span> एकांत और मौन से भरे जीवन की ओर</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q2.</div>
+        <div class="q-text">कविता में प्रकृति के किस रूप के माध्यम से नवजीवन और उत्साह का भाव व्यक्त किया गया है?</div>
+<span class="ans-marks">[2 Marks]</span>
+      </div>
+      <div class="options-grid">
+        <div class="option-item"><span class="opt-label">A.</span> प्रभात और नई किरणों के रूप में</div>
+        <div class="option-item"><span class="opt-label">B.</span> घने अंधकार और वर्षा के रूप में</div>
+        <div class="option-item"><span class="opt-label">C.</span> शुष्क धरती और पतझड़ के रूप में</div>
+        <div class="option-item"><span class="opt-label">D.</span> शांत रात्रि और चंद्रमा के रूप में</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q3.</div>
+        <div class="q-text">ध्वनि' कविता में कवि का प्रकृति के प्रति दृष्टिकोण किस भाव को प्रकट करता है?</div>
+<span class="ans-marks">[2 Marks]</span>
+      </div>
+      <div class="options-grid">
+        <div class="option-item"><span class="opt-label">A.</span> भय और निराशा</div>
+        <div class="option-item"><span class="opt-label">B.</span> उदासीनता और विरक्ति</div>
+        <div class="option-item"><span class="opt-label">C.</span> आशा और जीवन के प्रति विश्वास</div>
+        <div class="option-item"><span class="opt-label">D.</span> क्रोध और विरोध</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q4.</div>
+        <div class="q-text">कविता के संदर्भ में 'मृदुल' शब्द का उपयुक्त अर्थ क्या है?</div>
+<span class="ans-marks">[2 Marks]</span>
+      </div>
+      <div class="options-grid">
+        <div class="option-item"><span class="opt-label">A.</span> कठोर</div>
+        <div class="option-item"><span class="opt-label">B.</span> कोमल</div>
+        <div class="option-item"><span class="opt-label">C.</span> चंचल</div>
+        <div class="option-item"><span class="opt-label">D.</span> विशाल</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q5.</div>
+        <div class="q-text">ध्वनि' कविता में कवि ने प्रकृति के माध्यम से नए जीवन और आशा के संचार का भाव व्यक्त किया है।</div>
+<span class="ans-marks">[1 Mark]</span>
+      </div>
+      <div class="tf-options">
+        <div class="tf-option"><input type="radio" disabled> True</div>
+        <div class="tf-option"><input type="radio" disabled> False</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q6.</div>
+        <div class="q-text">कविता में कवि ने वसंत के आगमन को जीवन में उत्साह और नवचेतना से नहीं जोड़ा है।</div>
+<span class="ans-marks">[1 Mark]</span>
+      </div>
+      <div class="tf-options">
+        <div class="tf-option"><input type="radio" disabled> True</div>
+        <div class="tf-option"><input type="radio" disabled> False</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q7.</div>
+        <div class="q-text">ध्वनि' कविता में प्रकृति का चित्रण केवल उसके बाहरी सौंदर्य को दिखाने के लिए किया गया है, उसमें जीवन-जागरण का भाव नहीं है।</div>
+<span class="ans-marks">[1 Mark]</span>
+      </div>
+      <div class="tf-options">
+        <div class="tf-option"><input type="radio" disabled> True</div>
+        <div class="tf-option"><input type="radio" disabled> False</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q8.</div>
+        <div class="q-text">कलियाँ' शब्द कविता के संदर्भ में प्रकृति में आने वाले नएपन और विकास का संकेत देता है।</div>
+<span class="ans-marks">[1 Mark]</span>
+      </div>
+      <div class="tf-options">
+        <div class="tf-option"><input type="radio" disabled> True</div>
+        <div class="tf-option"><input type="radio" disabled> False</div>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q9.</div>
+        <div class="q-text">ध्वनि' कविता में वसंत के आगमन को कवि ने नवजीवन और आशा के प्रतीक के रूप में कैसे प्रस्तुत किया है? कविता के भाव के आधार पर स्पष्ट कीजिए।</div>
+<span class="ans-marks">[4 Marks]</span>
+      </div>
+    </div>
+    <div class="question-item">
+      <div class="question-row">
+        <div class="q-num">Q10.</div>
+        <div class="q-text">ध्वनि' कविता में प्रकृति केवल सौंदर्य का विषय नहीं, बल्कि जीवन में जागरण और आशा का संदेश देने वाली शक्ति भी है। कविता के आधार पर इस कथन को स्पष्ट कीजिए।</div>
+<span class="ans-marks">[4 Marks]</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="paper-footer">
+    <div>*** End of Question Paper ***</div>
+    <div class="footer-sign">
+      <span>Dr. A.K. Sharma</span> &nbsp;|&nbsp; Principal
+    </div>
+  </div>
+
+  </div>
+  <script>
+  (function(){
+    function _esc(v){var d=document.createElement('div');d.textContent=v||'';return d.innerHTML;}
+    function _readText(el){
+      if(!el){return '';}
+      var rows=el.querySelectorAll('.bilingual-row');
+      if(rows && rows.length){
+        var out=[];
+        for(var i=0;i<rows.length;i++){
+          var p=rows[i].querySelector('.bilingual-primary');
+          var s=rows[i].querySelector('.bilingual-secondary');
+          if(p && p.textContent.trim()!==''){out.push(p.textContent.trim());}
+          if(s && s.textContent.trim()!==''){out.push(s.textContent.trim());}
+        }
+        return out.join('\n');
+      }
+      return (el.textContent||'').replace(/\s+/g,' ').trim();
+    }
+    function _toHtmlText(v){return _esc(v).replace(/\r?\n/g,'<br>');}
+    function _buildWordTemplate(){
+      var logo=document.querySelector('.org-logo');
+      var orgName=document.querySelector('.org-name');
+      var tagline=document.querySelector('.org-tagline');
+      var address=document.querySelector('.org-address');
+      var examName=document.querySelector('.exam-name');
+      var meta=document.querySelectorAll('.exam-meta span');
+      var candidate=document.querySelector('.candidate-fields');
+      var instructions=document.querySelector('.instructions');
+      var section=document.querySelector('.questions-section');
+      var items=section ? section.querySelectorAll('.section-header, .question-item') : [];
+      var qCount=section ? section.querySelectorAll('.question-item').length : 0;
+      var breakBefore=(qCount>=6)?Math.ceil(qCount/2):0;
+      var qSeen=0;
+      var logoSrc=logo ? logo.src : '';
+      var qr=document.querySelector('.header-qr');
+      var qrSrc=qr ? qr.getAttribute('src') : '';
+      var examTitle=examName ? _readText(examName) : 'Question Paper';
+      var html=[];
+      html.push('<!DOCTYPE html>');
+      html.push('<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><meta name="ProgId" content="Word.Document">');
+      html.push('<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom><w:DoNotOptimizeForBrowser/><w:DoNotUseHTMLParagraphAutoSpacing/></w:WordDocument></xml><![endif]-->');
+      html.push('<style>');
+      html.push('body{font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#111;margin:0;padding:0;background:#fff;}');
+      html.push('@page WordSection1{size:210mm 297mm;margin:18mm 18mm 18mm 18mm;}');
+      html.push('div.WordSection1{page:WordSection1;}');
+      html.push('.school-logo{text-align:center;margin:0 0 6pt 0;}');
+      html.push('.school-logo img{width:72px;height:72px;object-fit:contain;}');
+      html.push('.school-name{text-align:center;font-size:18pt;font-weight:bold;margin:0;}');
+      html.push('.school-sub{text-align:center;font-size:9.5pt;margin:2pt 0 0 0;}');
+      html.push('.word-qr{text-align:right;margin:4pt 0 6pt 0;}');
+      html.push('.word-qr img{width:82px;height:82px;display:inline-block;}');
+      html.push('.exam-name{text-align:center;font-size:16pt;font-weight:bold;margin:12pt 0 6pt 0;}');
+      html.push('.meta{text-align:center;font-size:10pt;margin:0 0 12pt 0;}');
+      html.push('.student-info{width:100%;border-collapse:collapse;margin:8pt 0 12pt 0;}');
+      html.push('.student-info td{padding:3pt 6pt;vertical-align:bottom;}');
+      html.push('.instructions{margin:0 0 12pt 0;}');
+      html.push('.instructions-title{font-weight:bold;margin-bottom:3pt;}');
+      html.push('.question-section{font-weight:bold;margin:12pt 0 6pt 0;}');
+      html.push('.question{width:100%;border-collapse:collapse;table-layout:fixed;margin:0 0 10pt 0;page-break-inside:avoid;mso-table-lspace:0pt;mso-table-rspace:0pt;}');
+      html.push('.question td{vertical-align:top;padding:0;}');
+      html.push('.qnum{font-weight:bold;white-space:nowrap;}');
+      html.push('.qtext{line-height:1.35;}');
+      html.push('.marks{text-align:right;white-space:nowrap;}');
+      html.push('.option{margin:3pt 0 2pt 18pt;line-height:1.3;}');
+      html.push('.tf{margin:3pt 0 0 18pt;}');
+      html.push('.page-break{page-break-before:always;}');
+      html.push('</style></head><body><div class="WordSection1">');
+      if(logoSrc){html.push('<div class="school-logo"><img src="'+logoSrc+'" alt="School Logo"></div>');}
+      if(orgName){html.push('<p class="school-name">'+_esc(_readText(orgName))+'</p>');}
+      if(tagline){html.push('<p class="school-sub">'+_esc(_readText(tagline))+'</p>');}
+      if(address){html.push('<p class="school-sub">'+_esc(_readText(address))+'</p>');}
+      if(qrSrc){html.push('<div class="word-qr"><img src="'+qrSrc+'" alt="QR Code"></div>');}
+      html.push('<p class="exam-name">'+_esc(examTitle)+'</p>');
+      if(meta && meta.length){html.push('<p class="meta">');for(var m=0;m<meta.length;m++){if(m>0){html.push('&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;');}html.push(_esc(_readText(meta[m])));}html.push('</p>');}
+      if(candidate){
+        var rows=candidate.querySelectorAll('tr');
+        html.push('<table class="student-info"><tbody>');
+        for(var r=0;r<rows.length;r++){var cells=rows[r].querySelectorAll('td');if(cells.length>=4){html.push('<tr><td><strong>'+_esc(_readText(cells[0]))+'</strong></td><td>&nbsp;</td><td><strong>'+_esc(_readText(cells[2]))+'</strong></td><td>&nbsp;</td></tr>');}}
+        html.push('</tbody></table>');
+      }
+      if(instructions){var it=instructions.querySelector('.instructions-title'),ib=instructions.querySelector('.instructions-body');html.push('<div class="instructions">');if(it){html.push('<p class="instructions-title">'+_esc(_readText(it))+'</p>');}if(ib){html.push('<p>'+_toHtmlText(_readText(ib))+'</p>');}html.push('</div>');}
+      for(var i=0;i<items.length;i++){
+        var node=items[i];
+        if(node.classList.contains('section-header')){html.push('<p class="question-section">'+_esc(_readText(node))+'</p>');continue;}
+        qSeen++;
+        var qn=node.querySelector('.q-num');
+        var qt=node.querySelector('.q-text');
+        var qm=node.querySelector('.ans-marks');
+        var questionHtml='<table class="question"><tr><td style="width:88%;line-height:1.35;"><strong>'+_esc(_readText(qn))+'</strong>&nbsp;&nbsp;'+_toHtmlText(_readText(qt))+'</td><td class="marks" style="width:12%;text-align:right;vertical-align:top;white-space:nowrap;">'+_esc(_readText(qm))+'</td></tr>';
+        var og=node.querySelector('.options-grid');
+        if(og){var opts=og.querySelectorAll('.option-item');if(opts.length){questionHtml+='<tr><td colspan="2">' ;for(var oi=0;oi<opts.length;oi++){questionHtml+='<div class="option">'+_toHtmlText(_readText(opts[oi]))+'</div>';}questionHtml+='</td></tr>';}}
+        var tf=node.querySelector('.tf-options');
+        if(tf){var tfs=tf.querySelectorAll('.tf-option');if(tfs.length){questionHtml+='<tr><td colspan="2"><p class="tf">';for(var ti=0;ti<tfs.length;ti++){if(ti>0){questionHtml+='&nbsp;&nbsp;&nbsp;&nbsp;';}questionHtml+='&#9675;&nbsp;'+_esc(_readText(tfs[ti]));}questionHtml+='</p></td></tr>';}}
+        questionHtml+='</table>';html.push(questionHtml);
+      }
+      html.push('</div></body></html>');
+      return html.join('');
+    }
+    function _dlWord(){
+      try{
+        var fullDoc=_buildWordTemplate();
+        var blob=new Blob([String.fromCharCode(65279),fullDoc],{type:'application/msword;charset=utf-8'});
+        var fileName='Question_Paper.doc';
+        if(window.navigator&&window.navigator.msSaveOrOpenBlob){window.navigator.msSaveOrOpenBlob(blob,fileName);}else{var url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=fileName;link.style.display='none';document.body.appendChild(link);link.click();setTimeout(function(){if(link.parentNode)link.parentNode.removeChild(link);URL.revokeObjectURL(url);},500);}
+      }catch(err){alert('Word export failed: '+err.message);}
+    }
+    window._dlWord=_dlWord;
+  })();
+  </script>
+  <div class="action-buttons">
+    <button class="word-btn" onclick="window._dlWord()">Download Word Doc</button>
+    <button class="print-btn" onclick="window.print()">Print Question Sheet</button>
+  </div>
+</body></html>
