@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="light dark">
+<title>Online Exam</title>
+<script>(function(){try{var t=localStorage.getItem("xlb:theme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<!--__XLB_PREVIEW_INJECT__-->
+<style>
+:root{--primary:#1f4e78;--primary-rgb:31,78,120;--primary-light:#8fb8de;--on-primary:#fff;--accent:#f5b301;--accent-rgb:245,179,1;
+--bg:#f1f4f9;--card:#fff;--card2:#f6f8fc;--text:#16202e;--muted:#5d6b7e;--line:#dde4ee;--pri-text:var(--primary);
+--ok:#15803d;--ok-bg:#ecfdf3;--ok-line:#abefc6;--bad:#b42318;--bad-bg:#fef3f2;--bad-line:#fecdca;--warn:#b54708;--warn-bg:#fffaeb;--warn-line:#fedf89;--info:#175cd3;--info-bg:#eff8ff;--info-line:#b2ddff;
+--shadow:0 1px 2px rgba(16,24,40,.06),0 10px 28px rgba(16,24,40,.08);--r:16px;--maxw:900px}
+[data-theme=dark]{--bg:#0c121c;--card:#151f2e;--card2:#1a2638;--text:#e9eef6;--muted:#9bacc2;--line:#25344b;--pri-text:var(--primary-light);
+--ok:#4ade80;--ok-bg:rgba(34,197,94,.12);--ok-line:rgba(34,197,94,.35);--bad:#f87171;--bad-bg:rgba(239,68,68,.12);--bad-line:rgba(239,68,68,.35);--warn:#fbbf24;--warn-bg:rgba(245,158,11,.12);--warn-line:rgba(245,158,11,.35);--info:#8ab8ff;--info-bg:rgba(59,130,246,.14);--info-line:rgba(59,130,246,.35);
+--shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.4)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Roboto,Arial,sans-serif;font-size:16px;line-height:1.5}
+body{-webkit-user-select:none;user-select:none;position:relative;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+body::before{content:"";position:absolute;left:0;right:0;top:0;height:260px;background:linear-gradient(160deg,var(--primary) 0%,rgba(var(--primary-rgb),.78) 60%,rgba(var(--primary-rgb),.0) 130%);opacity:.95;z-index:0;pointer-events:none}
+[data-theme=dark] body::before{opacity:.5}
+input,textarea{-webkit-user-select:text;user-select:text}
+svg.i{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.2em;flex:none}
+.hide{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+h1,h2,h3{margin:0}
+h2{font-size:1.35rem;letter-spacing:-.01em}
+h2:focus{outline:none}
+.frame{position:relative;z-index:1;min-height:100vh;transition:max-width .25s ease;container-type:inline-size;container-name:examPreview}
+/* ---------- app bar ---------- */
+.appbar{position:sticky;top:0;z-index:40;background:rgba(var(--primary-rgb),.0)}
+.appbar .in{max-width:var(--maxw);margin:0 auto;padding:14px 16px;display:flex;align-items:center;gap:12px;color:var(--on-primary)}
+.logo,.mlogo{width:46px;height:46px;border-radius:13px;flex:none}
+.logo{object-fit:contain;background:#fff;padding:3px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.mlogo{display:grid;place-items:center;font-weight:800;font-size:1.05rem;color:var(--primary);background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.brand{min-width:0;flex:1}
+.brand h1{font-size:1.1rem;font-weight:700;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:inherit}
+.brand small{display:block;opacity:.88;font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:99px;font-size:.78rem;font-weight:600;background:rgba(255,255,255,.16);color:inherit;border:1px solid rgba(255,255,255,.22);white-space:nowrap}
+.chip .dot{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 3px rgba(74,222,128,.25)}
+.chip.off .dot{background:#f87171;box-shadow:0 0 0 3px rgba(248,113,113,.3)}
+.iconbtn{width:40px;height:40px;min-height:40px;padding:0;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.16);color:inherit;border:1px solid rgba(255,255,255,.22);cursor:pointer}
+.iconbtn:hover{background:rgba(255,255,255,.26)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px 40px}
+/* ---------- stepper ---------- */
+.steps{display:flex;align-items:center;gap:8px;margin:2px 0 16px;color:var(--on-primary)}
+.step{display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;opacity:.75}
+.step .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;border:1.5px solid rgba(255,255,255,.55);font-size:.75rem}
+.step.on{opacity:1}.step.on .n{background:#fff;color:var(--primary);border-color:#fff}
+.step.done{opacity:1}.step.done .n{background:rgba(255,255,255,.28);border-color:transparent}
+.steps .ln{flex:1;height:2px;background:rgba(255,255,255,.3);border-radius:2px;min-width:12px}
+/* ---------- cards & forms ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:22px}
+.grid2{display:grid;grid-template-columns:1.05fr 1fr;gap:0}
+.grid2>.side{padding:24px;background:var(--card2);border-right:1px solid var(--line);border-radius:var(--r) 0 0 var(--r)}
+.grid2>.main{padding:24px}
+.card.flush{padding:0;overflow:hidden}
+.eyebrow{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.exname{font-size:1.4rem;font-weight:800;letter-spacing:-.015em;margin:4px 0 2px;color:var(--text)}
+.sub{color:var(--muted);font-size:.92rem}
+.winchip{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:6px 12px;border-radius:99px;font-size:.82rem;font-weight:700;background:var(--info-bg);color:var(--info);border:1px solid var(--info-line)}
+.winchip.open{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-line)}
+.winchip.closed{background:var(--bad-bg);color:var(--bad);border-color:var(--bad-line)}
+.winchip.prev{background:var(--warn-bg);color:var(--warn);border-color:var(--warn-line)}
+.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.meta div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.meta b{display:block;font-size:1.25rem;color:var(--text);text-transform:none;letter-spacing:0;margin-top:2px}
+.checks{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.ck{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:99px;background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-line)}
+.ck.bad{background:var(--warn-bg);color:var(--warn);border-color:var(--warn-line)}
+.qrwrap{display:flex;gap:14px;align-items:center;margin:16px 0 0;padding:12px;border:1px dashed var(--line);border-radius:14px;background:var(--card)}
+.qrwrap #qrBox{flex:0 0 92px;width:92px;height:92px;background:#fff;border-radius:10px;padding:4px;display:grid;place-items:center;color:#64748b;font-size:.7rem;text-align:center}
+.qrwrap #qrBox svg,.qrwrap #qrBox img{width:100%;height:100%;display:block}
+.qrwrap b{font-size:.88rem}.qrwrap small{display:block;color:var(--muted);font-size:.72rem;word-break:break-all;margin-top:4px;-webkit-user-select:text;user-select:text}
+.formtitle{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.formtitle .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(var(--primary-rgb),.1);color:var(--pri-text)}
+label{display:block;font-weight:600;font-size:.88rem;margin:14px 0 6px}
+.field{position:relative}
+input[type=text],input[type=email],input[type=password]{width:100%;padding:12px 14px;font:inherit;font-size:1rem;border:1.5px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);min-height:50px;transition:border-color .15s,box-shadow .15s}
+input::placeholder{color:#94a3b8}
+input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px rgba(var(--primary-rgb),.16)}
+input.bad{border-color:var(--bad);box-shadow:0 0 0 4px rgba(180,35,24,.12)}
+.field .eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:40px;height:40px;min-height:40px;padding:0;background:transparent;color:var(--muted);border-radius:10px;display:grid;place-items:center}
+.field .eye:hover{background:var(--card2)}
+.field input[type=password],.field input.pw{padding-right:50px}
+.caps{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--warn);margin-top:6px;font-weight:600}
+button{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:12px 22px;min-height:50px;font-weight:700;background:var(--primary);color:var(--on-primary);display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .08s,filter .15s,box-shadow .15s}
+button:hover:not(:disabled){filter:brightness(1.08);box-shadow:0 6px 16px rgba(var(--primary-rgb),.28)}
+button:active:not(:disabled){transform:translateY(1px)}
+button:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+button:focus-visible,.opt:focus-visible,.iconbtn:focus-visible{outline:3px solid rgba(var(--accent-rgb),.9);outline-offset:2px}
+button.ghost{background:transparent;color:var(--pri-text);border:1.5px solid var(--line);box-shadow:none}
+button.ghost:hover:not(:disabled){background:var(--card2);box-shadow:none;border-color:var(--primary)}
+button.full{width:100%;margin-top:20px}
+button.sm{min-height:40px;padding:8px 14px;font-size:.88rem;border-radius:10px}
+.msg{margin-top:14px;padding:12px 14px;border-radius:12px;font-size:.93rem;display:none;line-height:1.45}
+.msg.err{display:block;background:var(--bad-bg);color:var(--bad);border:1px solid var(--bad-line)}
+.msg.ok{display:block;background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-line)}
+.msg.info{display:block;background:var(--info-bg);color:var(--info);border:1px solid var(--info-line)}
+.spin{display:inline-block;width:18px;height:18px;border:3px solid rgba(100,116,139,.35);border-top-color:currentColor;border-radius:50%;animation:sp .8s linear infinite;vertical-align:-3px;margin-right:8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.blocked{text-align:center;padding:34px 20px}
+.blocked .big{width:68px;height:68px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:var(--bad-bg);color:var(--bad);font-size:2rem;border:1px solid var(--bad-line)}
+.blocked h2{margin-bottom:8px}.blocked .big svg{width:1.3em;height:1.3em}
+/* ---------- ready ---------- */
+.cand{display:flex;align-items:center;gap:14px;padding:14px;border-radius:14px;background:var(--card2);border:1px solid var(--line);margin:14px 0}
+.avatar{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1.1rem;color:var(--on-primary);background:linear-gradient(135deg,var(--primary),rgba(var(--primary-rgb),.7));flex:none}
+.cand b{display:block;font-size:1.05rem}.cand span{color:var(--muted);font-size:.85rem}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 4px}
+.tile{border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;background:var(--card)}
+.tile b{display:block;font-size:1.5rem;color:var(--pri-text);line-height:1.2}.tile span{display:block;font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.timing-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:88px}.timing-tile>span{margin-bottom:4px}.timing-tile>b{font-size:1.55rem;line-height:1.05}.timing-tile>strong{display:block;margin-top:3px;font-size:.8rem;line-height:1.15;color:var(--text);font-weight:700}
+.rules{list-style:none;padding:0;margin:14px 0}
+.rules li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line);font-size:.93rem}
+.rules li:last-child{border-bottom:0}
+.rules li .i{color:var(--pri-text);margin-top:3px}
+.ack{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1.5px solid var(--line);border-radius:12px;margin-top:6px;cursor:pointer;font-weight:500;font-size:.92rem;background:var(--card)}
+.ack input{width:20px;height:20px;margin-top:2px;accent-color:var(--primary);flex:none}
+/* ---------- exam ---------- */
+.examHead{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 18px}
+.qno{font-weight:800;font-size:1.15rem;color:var(--text)}
+.qno small{font-weight:600;color:var(--muted);font-size:.85rem}
+.qmeta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:.74rem;font-weight:700;padding:3px 10px;border-radius:99px;background:rgba(var(--primary-rgb),.1);color:var(--pri-text);letter-spacing:.01em}
+.badge.neg{background:var(--bad-bg);color:var(--bad)}.badge.sec{background:var(--card2);color:var(--muted);border:1px solid var(--line)}.badge.rep{background:var(--warn-bg);color:var(--warn)}
+.eh-r{display:flex;align-items:center;gap:14px}
+.gtimer{font-size:.8rem;color:var(--muted);text-align:right;font-weight:600;line-height:1.3}
+.gtimer b{display:block;font-size:1.05rem;color:var(--text);font-variant-numeric:tabular-nums}
+.gtimer.low b{color:var(--bad)}
+.ring{position:relative;width:76px;height:76px;flex:none}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .trk{fill:none;stroke:var(--line);stroke-width:4}
+.ring .prg{fill:none;stroke:var(--primary);stroke-width:4;stroke-linecap:round;stroke-dasharray:119.4;stroke-dashoffset:0;transition:stroke-dashoffset .25s linear,stroke .3s}
+.ring.warn .prg{stroke:var(--warn)}.ring.low .prg{stroke:var(--bad)}
+.timer{position:absolute;inset:0;display:grid;place-items:center;font-variant-numeric:tabular-nums;font-weight:800;font-size:1.02rem;color:var(--text)}
+.ring.low .timer{color:var(--bad);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.55}}
+.palette{display:flex;flex-wrap:wrap;gap:5px;margin:12px 0 4px}
+.palette i{width:14px;height:14px;border-radius:4px;background:var(--line);display:block}
+.palette i.ans{background:var(--primary)}.palette i.skip{background:var(--warn)}.palette i.inv{background:repeating-linear-gradient(45deg,var(--line),var(--line) 3px,var(--card) 3px,var(--card) 6px)}
+.palette i.cur{background:var(--card);outline:2.5px solid var(--primary);outline-offset:1px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.78rem;color:var(--text);margin:4px 0 12px;font-weight:600;align-items:center}
+.legend span{display:inline-flex;align-items:center;gap:7px;color:var(--text);font-weight:600;white-space:nowrap}.legend i{width:11px;height:11px;border-radius:3px;display:inline-block;flex:none;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.bar{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin:8px 0 14px}
+.bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .35s;border-radius:99px}
+.qcard{padding:24px}
+.global-mode #qRing{display:none!important}
+.qtext{font-size:1.2rem;line-height:1.6;margin:0 0 20px;white-space:pre-wrap;word-wrap:break-word;font-weight:500}
+.opt{display:flex;gap:14px;align-items:center;width:100%;text-align:left;background:var(--card);color:var(--text);border:1.5px solid var(--line);margin:0 0 10px;padding:14px 16px;font-weight:500;border-radius:14px;min-height:60px;box-shadow:none;justify-content:flex-start}
+.opt:hover:not(:disabled){border-color:rgba(var(--primary-rgb),.55);background:var(--card2);box-shadow:none;filter:none}
+.opt .k{flex:0 0 34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--card2);border:1.5px solid var(--line);font-weight:800;color:var(--pri-text);font-size:.95rem}
+.opt .t{flex:1;line-height:1.45;word-wrap:break-word;min-width:0}
+.opt.sel{border-color:var(--primary);background:rgba(var(--primary-rgb),.08);box-shadow:0 0 0 3px rgba(var(--primary-rgb),.14)}
+.opt.sel .k{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+.opt.locked{pointer-events:none;opacity:.65}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.foot .hint{font-size:.8rem;color:var(--muted);flex:1;text-align:center}
+.kbd{font-size:.72rem;color:var(--muted);text-align:center;margin-top:10px}
+.kbd kbd{font:inherit;font-weight:700;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:0 6px;background:var(--card2)}
+@media (hover:none){.kbd{display:none}}
+/* ---------- overlay / toast ---------- */
+.overlay{position:fixed;inset:0;background:rgba(8,13,22,.78);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:80}
+.overlay .box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;max-width:460px;width:100%;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.overlay .ico{width:58px;height:58px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;background:var(--warn-bg);color:var(--warn);font-size:1.6rem;border:1px solid var(--warn-line)}
+.overlay .ico.q{background:var(--info-bg);color:var(--info);border-color:var(--info-line)}
+.overlay h3{margin:0 0 8px;font-size:1.2rem}
+.overlay p{margin:0;color:var(--muted);font-size:.95rem}
+.overlay .btns{display:flex;gap:10px;margin-top:20px}.overlay .btns button{flex:1}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,30px);opacity:0;pointer-events:none;background:#0f172a;color:#fff;padding:11px 18px;border-radius:12px;font-size:.88rem;font-weight:600;z-index:90;max-width:90vw;transition:all .25s;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+/* ---------- done ---------- */
+.center{text-align:center}
+.sending{padding:34px 10px;text-align:center}
+.sending .big{width:56px;height:56px;border:5px solid rgba(var(--primary-rgb),.18);border-top-color:var(--primary);border-radius:50%;margin:0 auto 18px;animation:sp .9s linear infinite}
+.okmark{width:72px;height:72px;border-radius:50%;margin:4px auto 10px;display:grid;place-items:center;background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-line);font-size:2rem}
+.scorewrap{display:flex;align-items:center;justify-content:center;gap:26px;flex-wrap:wrap;margin:18px 0 6px}
+.sring{position:relative;width:150px;height:150px}
+.sring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.sring .trk{fill:none;stroke:var(--line);stroke-width:9}
+.sring .prg{fill:none;stroke:var(--primary);stroke-width:9;stroke-linecap:round;stroke-dasharray:326.7;stroke-dashoffset:326.7;transition:stroke-dashoffset 1.1s cubic-bezier(.2,.8,.2,1)}
+.sring .num{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-weight:800;font-size:1.9rem;line-height:1.1}
+.sring .num small{display:block;font-size:.74rem;color:var(--muted);font-weight:600}
+.stats3{display:grid;grid-template-columns:repeat(3,minmax(84px,1fr));gap:10px;min-width:260px}
+.stats3 div{text-align:center;padding:12px 8px;border-radius:12px;background:var(--card2);border:1px solid var(--line)}
+.stats3 b{display:block;font-size:1.4rem}.stats3 span{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.stats3 .g b{color:var(--ok)}.stats3 .r b{color:var(--bad)}.stats3 .y b{color:var(--warn)}
+.receipt{margin:18px 0 6px;border:1px dashed var(--line);border-radius:14px;overflow:hidden}
+.receipt .h{padding:10px 14px;background:var(--card2);font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;padding:14px;font-size:.9rem}
+.kv b{color:var(--muted);font-weight:600}.kv span{word-break:break-all;-webkit-user-select:text;user-select:text}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+/* ---------- preview bar / device frame ---------- */
+.pbar{position:sticky;top:0;z-index:100;background:#4c1d95;color:#fff;padding:8px 14px;font-size:.82rem;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.pbar b{letter-spacing:.04em}.pbar label{display:inline-flex;gap:6px;align-items:center;margin:0;font-weight:500;font-size:.82rem;cursor:pointer}
+.pbar .grp{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.pbar button{min-height:32px;padding:4px 11px;font-size:.78rem;border-radius:8px;background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.28);box-shadow:none}
+.pbar button.on{background:#fff;color:#4c1d95}
+.pbar button:hover:not(:disabled){filter:none;background:rgba(255,255,255,.26);box-shadow:none}
+.pbar button.on:hover:not(:disabled){background:#fff}
+.demohint{background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn);border-radius:12px;padding:10px 14px;font-size:.85rem;margin-top:14px}
+body[data-device=tablet] .frame{max-width:780px;margin:14px auto;border-radius:22px;overflow:hidden;box-shadow:0 0 0 10px #1e293b,0 20px 60px rgba(0,0,0,.35);background:var(--bg);min-height:640px}
+body[data-device=phone] .frame{max-width:392px;margin:14px auto;border-radius:34px;overflow:hidden;box-shadow:0 0 0 11px #1e293b,0 20px 60px rgba(0,0,0,.35);background:var(--bg);min-height:700px}
+body[data-device=tablet]::before,body[data-device=phone]::before{display:block}
+body[data-device=tablet],body[data-device=phone]{background:#cbd5e1}
+body[data-device=tablet] .frame,body[data-device=phone] .frame{background:linear-gradient(160deg,var(--primary) 0%,rgba(var(--primary-rgb),.78) 60%,rgba(var(--primary-rgb),0) 130px) var(--bg);}
+body[data-device=tablet] .appbar,body[data-device=phone] .appbar{background:transparent}
+body[data-device=phone] .grid2,body[data-device=phone] .examHead{grid-template-columns:1fr}
+/* ---------- responsive ---------- */
+@media (max-width:760px){
+ .grid2{grid-template-columns:1fr}.grid2>.side{border-right:0;border-bottom:1px solid var(--line);border-radius:var(--r) var(--r) 0 0}
+ .step .t{display:none}.step.on .t{display:inline}
+}
+@media (max-width:520px){
+ .wrap{padding:0 10px 30px}.appbar .in{padding:12px 10px}.card{padding:16px}.grid2>.side,.grid2>.main{padding:18px}
+ .qcard{padding:16px}.qtext{font-size:1.08rem}.examHead{padding:12px 14px}.ring{width:64px;height:64px}.timer{font-size:.9rem}
+ .meta{grid-template-columns:repeat(3,1fr);gap:6px}.meta b{font-size:1.05rem}.chip .tx{display:none}
+ .foot{position:sticky;bottom:0;background:var(--card);margin:18px -16px -16px;padding:12px 16px;border-radius:0 0 var(--r) var(--r)}
+ .foot .hint{display:none}.foot button{flex:1}.stats3{min-width:0;width:100%}
+}
+/* ---------- preview viewport emulation ---------- */
+@container examPreview (max-width:760px){
+ .grid2{grid-template-columns:1fr}.grid2>.side{border-right:0;border-bottom:1px solid var(--line);border-radius:var(--r) var(--r) 0 0}
+ .step .t{display:none}.step.on .t{display:inline}
+}
+@container examPreview (max-width:520px){
+ .wrap{padding:0 10px 30px}.appbar .in{padding:12px 10px}.card{padding:16px}.grid2>.side,.grid2>.main{padding:18px}
+ .qcard{padding:16px}.qtext{font-size:1.08rem}.examHead{padding:12px 14px;grid-template-columns:1fr}.ring{width:64px;height:64px}.timer{font-size:.9rem}
+ .meta{grid-template-columns:repeat(3,1fr);gap:6px}.meta b{font-size:1.05rem}.chip .tx{display:none}
+ .foot{position:sticky;bottom:0;background:var(--card);margin:18px -16px -16px;padding:12px 16px;border-radius:0 0 var(--r) var(--r)}
+ .foot .hint{display:none}.foot button{flex:1}.stats3{min-width:0;width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{body{display:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+ <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+ <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+ <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+ <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+ <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+ <symbol id="i-eyeoff" viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 6.1A10 10 0 0 1 12 6c6.4 0 10 6 10 6a17 17 0 0 1-3.2 3.9M6.6 6.7A16.6 16.6 0 0 0 2 12s3.6 7 10 7a9.8 9.8 0 0 0 4.4-1M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
+ <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17.5v.5"/></symbol>
+ <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></symbol>
+ <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+ <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.4 8.4 8 9 4.6-.6 8-4 8-9V6l-8-3z"/><path d="m9 12 2 2 4-4"/></symbol>
+ <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></symbol>
+ <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></symbol>
+ <symbol id="i-desk" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
+ <symbol id="i-tab" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M11 18h2"/></symbol>
+ <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18.5h2"/></symbol>
+ <symbol id="i-admin" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></symbol>
+ <symbol id="i-redo" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></symbol>
+</svg>
+
+<div id="previewBanner" class="pbar hide">
+  <span><b>PREVIEW MODE</b> &mdash; nothing is published, saved or uploaded.</span>
+  <span class="grp">
+    <button type="button" data-dev="desktop" class="on" title="Desktop"><svg class="i"><use href="#i-desk"/></svg> Desktop</button>
+    <button type="button" data-dev="tablet" title="Tablet"><svg class="i"><use href="#i-tab"/></svg> Tablet</button>
+    <button type="button" data-dev="phone" title="Phone"><svg class="i"><use href="#i-phone"/></svg> Phone</button>
+    <label><input type="checkbox" id="simFail"> Simulate submission failure</label>
+    <button type="button" id="btnPvAdmin"><svg class="i"><use href="#i-admin"/></svg> Admin Demo</button>
+    <button type="button" id="btnPvRestart"><svg class="i"><use href="#i-redo"/></svg> Restart</button>
+  </span>
+</div>
+
+<div class="frame" id="app">
+<header class="appbar"><div class="in">
+  <img id="logo" class="logo hide" alt="">
+  <div id="mlogo" class="mlogo" aria-hidden="true">EX</div>
+  <div class="brand"><h1 id="hSchool">Online Exam</h1><small id="hExam"></small></div>
+  <span class="chip" id="netChip" role="status" aria-live="polite"><span class="dot"></span><span class="tx" id="netTx">Online</span></span>
+  <button type="button" class="iconbtn" id="btnTheme" aria-label="Switch light / dark theme" title="Switch theme"><svg class="i"><use href="#i-moon"/></svg></button>
+</div></header>
+
+<div class="wrap">
+  <nav class="steps" id="steps" aria-label="Progress">
+    <div class="step on" data-s="1"><span class="n">1</span><span class="t">Login</span></div><span class="ln"></span>
+    <div class="step" data-s="2"><span class="n">2</span><span class="t">Instructions</span></div><span class="ln"></span>
+    <div class="step" data-s="3"><span class="n">3</span><span class="t">Exam</span></div><span class="ln"></span>
+    <div class="step" data-s="4"><span class="n">4</span><span class="t">Submitted</span></div>
+  </nav>
+
+  <!-- LOGIN -->
+  <section id="scrLogin" class="card flush">
+   <div class="grid2">
+    <div class="side">
+      <div class="eyebrow">Online Examination</div>
+      <div class="exname" id="sideExam">Exam</div>
+      <div class="sub" id="sideSub"></div>
+      <div class="winchip" id="winChip"><svg class="i"><use href="#i-clock"/></svg><span id="winTx">Checking exam window...</span></div>
+      <div class="meta" id="metaBox"></div>
+      <div class="eyebrow">System check</div>
+      <div class="checks" id="sysChecks"></div>
+      <div class="qrwrap" id="qrWrap"><div id="qrBox"></div><div><b>Scan to open this login page on your phone</b><small id="qrUrl"></small></div></div>
+    </div>
+    <div class="main">
+      <div class="formtitle"><span class="ic"><svg class="i"><use href="#i-user"/></svg></span><div><h2 id="lgH">Student Login</h2><div class="sub">Enter your details exactly as registered.</div></div></div>
+      <div id="fName"><label for="inName">Student Name</label><input type="text" id="inName" autocomplete="name" maxlength="80" placeholder="Full name"></div>
+      <div id="fId"><label for="inId">Student ID</label><input type="text" id="inId" autocomplete="off" autocapitalize="characters" maxlength="40" placeholder="e.g. 2024-0117"></div>
+      <div id="fEmail"><label for="inEmail">Email Address</label><input type="email" id="inEmail" autocomplete="email" maxlength="120" placeholder="name@example.com"></div>
+      <label for="inPass">Exam Password <span class="sub" style="font-weight:400">(given by your school)</span></label>
+      <div class="field"><input type="password" id="inPass" autocomplete="off" maxlength="60" placeholder="Enter exam password"><button type="button" class="eye" id="btnEye" aria-label="Show password"><svg class="i"><use href="#i-eye"/></svg></button></div>
+      <div class="caps hide" id="capsWarn"><svg class="i"><use href="#i-alert"/></svg> Caps Lock is on</div>
+      <button class="full" id="btnLogin"><svg class="i"><use href="#i-lock"/></svg><span id="btnLoginTx">Login</span></button>
+      <div id="msgLogin" class="msg" role="alert" aria-live="polite"></div>
+      <div id="demoHint" class="demohint hide"></div>
+    </div>
+   </div>
+  </section>
+
+  <!-- READY -->
+  <section id="scrReady" class="card hide">
+    <h2>Review &amp; begin</h2>
+    <div class="sub">Please read the instructions carefully before you start.</div>
+    <div class="cand"><div class="avatar" id="candAv">S</div><div><b id="candName">Student</b><span id="candSub"></span></div></div>
+    <div class="tiles" id="readyTiles"></div>
+    <div class="kv hide" id="readyKv"></div>
+    <ul class="rules" id="rulesList"></ul>
+    <label class="ack" for="ackChk"><input type="checkbox" id="ackChk"><span>I have read and understood the instructions. I will not use any unfair means during this exam.</span></label>
+    <button class="full" id="btnBegin" disabled><svg class="i"><use href="#i-shield"/></svg> Begin Exam</button>
+    <div id="msgReady" class="msg" role="alert" aria-live="polite"></div>
+  </section>
+
+  <!-- EXAM -->
+  <section id="scrExam" class="hide">
+    <div class="card examHead">
+      <div><div class="qno" id="qNo"></div><div class="qmeta" id="qMeta"></div></div>
+      <div class="eh-r">
+        <div class="gtimer" id="gTimerBox"><span id="gTimer"></span></div>
+        <div class="ring" id="qRing" role="timer" aria-label="Time left for this question"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="trk" cx="22" cy="22" r="19"/><circle class="prg" id="qArc" cx="22" cy="22" r="19"/></svg><span class="timer" id="qTimer">00:00</span></div>
+      </div>
+    </div>
+    <div class="bar" aria-hidden="true"><i id="pBar"></i></div>
+    <div class="palette" id="qPalette" aria-hidden="true"></div>
+    <div class="legend" id="qLegend"><span><i style="background:var(--primary)"></i>Answered</span><span><i style="background:var(--warn)"></i>Skipped</span><span><i style="background:var(--line)"></i>Upcoming</span></div>
+    <div class="card qcard">
+      <div class="qtext" id="qText"></div>
+      <div id="qOpts" role="radiogroup" aria-label="Answer options"></div>
+      <div class="foot"><button type="button" class="ghost hide" id="btnPrev">Previous</button><button type="button" class="ghost" id="btnClear">Clear</button><div class="hint" id="qHint"></div><button id="btnNext">Next</button></div>
+      <div class="kbd" id="kbdHint"></div>
+    </div>
+  </section>
+
+  <!-- SUBMITTING / RESULT -->
+  <section id="scrDone" class="card hide">
+    <div id="doneBody"></div>
+  </section>
+</div>
+</div>
+
+<div id="ovl" class="overlay hide" role="dialog" aria-modal="true" aria-labelledby="ovlTitle"><div class="box"><div class="ico" id="ovlIco"><svg class="i"><use href="#i-alert"/></svg></div><h3 id="ovlTitle"></h3><p id="ovlText"></p><div class="btns"><button class="ghost hide" id="ovlCancel" type="button">Cancel</button><button id="ovlBtn" type="button">Continue</button></div></div></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>(function(){"use strict";var Q=function(){var data="";return {addData:function(v){data=String(v==null?"":v);},make:function(){return true;},createSvgTag:function(opts){opts=opts||{};var size=Number(opts.cellSize||2);var margin=Number(opts.margin==null?4*size:opts.margin);var total=180+margin*2;var src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data="+encodeURIComponent(data);var tag='<svg xmlns="http://www.w3.org/2000/svg" '+(opts.scalable?'viewBox="0 0 '+total+' '+total+'"':'width="'+total+'" height="'+total+'"')+' role="img" aria-label="QR Code" style="display:block;background:#fff">';tag+='<rect width="100%" height="100%" fill="#fff"/>';tag+='<image href="'+src+'" x="'+margin+'" y="'+margin+'" width="180" height="180" preserveAspectRatio="none"/>';tag+='</svg>';return tag;},createImgTag:function(cellSize,margin,alt){cellSize=Number(cellSize||2);margin=Number(margin==null?4*cellSize:margin);var src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data="+encodeURIComponent(data);return '<img src="'+src+'" alt="'+String(alt||"QR Code").replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];})+'" width="180" height="180" style="display:block;background:#fff;padding:'+margin+'px"/>';}};};window.qrcode=window.qrcode||function(){return Q();};})();</script>
+<script>
+"use strict";
+/* ============================================================================
+   XLBooster Online Exam - Student App (pro UI v2)
+   Everything is driven by the Exam ID folder this page lives in.
+   Crypto: PBKDF2-SHA256 -> master key -> (enc, mac) AES-256-CBC + HMAC-SHA256.
+   Honest note: browser-side protections are DETERRENTS, not a security boundary.
+   ============================================================================ */
+var PREVIEW = (function(){ try{ if(window.__XLB_PREVIEW__) return window.__XLB_PREVIEW__; var b=window.__XLB_PREVIEW_B64__; if(!b) return null; var s=atob(b), u=new Uint8Array(s.length), i; for(i=0;i<s.length;i++) u[i]=s.charCodeAt(i); return JSON.parse(new TextDecoder().decode(u)); }catch(e){ return null; } })();
+var $ = function(id){ return document.getElementById(id); };
+var enc = new TextEncoder(), dec = new TextDecoder();
+var S = {cfg:null, pay:null, student:null, attempt:null, gh:null, list:[], reserve:[], idx:0, rec:[], replacements:0,
+         violations:[], log:[], qStart:0, qLimit:0, qTimer:null, gDeadline:Infinity, windowDeadline:Infinity, began:0, beganISO:"", skew:0, submitting:false,
+         submitted:false, locked:false, selected:null, lastViolAt:-1e9, examActive:false, overlayOpen:false, confirmOpen:false, confirmed:false, retryPending:false};
+
+/* ---------- small helpers ---------- */
+function b64d(s){ var b=atob(s), u=new Uint8Array(b.length); for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i); return u; }
+function b64e(u){ var s=""; for(var i=0;i<u.length;i++)s+=String.fromCharCode(u[i]); return btoa(s); }
+function utf8b64(t){ return b64e(enc.encode(t)); }
+function b64utf8(b){ return dec.decode(b64d(b)); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+function pad(n){ return (n<10?"0":"")+n; }
+function mmss(sec){ sec=Math.max(0,Math.ceil(sec)); var h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60), s=sec%60; return (h?pad(h)+":":"")+pad(m)+":"+pad(s); }
+function show(id){
+  ["scrLogin","scrReady","scrExam","scrDone"].forEach(function(x){ $(x).classList.toggle("hide",x!==id); });
+  setStep(id); window.scrollTo(0,0);
+  var h=$(id).querySelector("h2"); if(h){ h.setAttribute("tabindex","-1"); try{ h.focus({preventScroll:true}); }catch(_){} }
+}
+function msg(id,type,text){ var e=$(id); e.className="msg "+type; e.textContent=text; }
+/* ---------- UI helpers (look & feel only - no exam logic) ---------- */
+function ico(n){ return '<svg class="i"><use href="#i-'+n+'"/></svg>'; }
+function toast(t){ var e=$("toast"); e.textContent=t; e.classList.add("on"); clearTimeout(toast.t); toast.t=setTimeout(function(){ e.classList.remove("on"); },2800); }
+function curTheme(){ return document.documentElement.getAttribute("data-theme")==="dark"?"dark":"light"; }
+function setTheme(t){ document.documentElement.setAttribute("data-theme",t); try{ localStorage.setItem("xlb:theme",t); }catch(_){} var b=$("btnTheme"); if(b) b.innerHTML=ico(t==="dark"?"sun":"moon"); }
+function hexRgb(h){ var m=/^#?([0-9a-f]{6})$/i.exec(String(h||"")); if(!m) return null; var n=parseInt(m[1],16); return [(n>>16)&255,(n>>8)&255,n&255]; }
+function mixW(rgb,t){ return rgb.map(function(v){ return Math.round(v+(255-v)*t); }); }
+function lum(rgb){ var f=rgb.map(function(v){ v/=255; return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4); }); return 0.2126*f[0]+0.7152*f[1]+0.0722*f[2]; }
+function applyBrand(c){
+  var th=c.theme||{}, p=hexRgb(th.primary)||[31,78,120], a=hexRgb(th.accent)||[245,179,1], st=document.documentElement.style;
+  st.setProperty("--primary","rgb("+p.join(",")+")"); st.setProperty("--primary-rgb",p.join(","));
+  st.setProperty("--primary-light","rgb("+mixW(p,.6).join(",")+")");
+  st.setProperty("--accent","rgb("+a.join(",")+")"); st.setProperty("--accent-rgb",a.join(","));
+  st.setProperty("--on-primary",lum(p)>0.55?"#101828":"#ffffff");
+}
+function initials(n,firstTwo){ var w=String(n||"").trim().split(/\s+/).filter(Boolean); if(!w.length) return "EX"; var b=(w.length>1)?(firstTwo?w[1]:w[w.length-1]):""; return (w[0].charAt(0)+b.charAt(0)).toUpperCase(); }
+function netUpdate(){ var on=navigator.onLine!==false; $("netChip").classList.toggle("off",!on); $("netTx").textContent=on?"Online":"Offline"; }
+function setStep(id){
+  var n={scrLogin:1,scrReady:2,scrExam:3,scrDone:4}[id];
+  Array.prototype.forEach.call(document.querySelectorAll("#steps .step"),function(s){
+    var k=+s.getAttribute("data-s"); s.className="step"+(k===n?" on":(k<n?" done":""));
+    s.querySelector(".n").innerHTML=k<n?ico("check"):String(k);
+  });
+  $("steps").classList.toggle("hide",id==="scrExam");
+}
+function bad(fieldId,text){ msg("msgLogin","err",text); var f=$(fieldId); if(f){ f.classList.add("bad"); try{ f.focus(); }catch(_){} } }
+function dur(ms){ var s=Math.max(0,Math.floor(ms/1000)), d=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60), x=s%60; if(d>0) return d+"d "+pad(h)+"h"; return pad(h)+":"+pad(m)+":"+pad(x); }
+function winTick(){
+  if(!S.cfg) return; var c=S.cfg, k="", t;
+  if(PREVIEW){ k="prev"; t="Preview mode \u2022 exam window is not enforced"; }
+  else{ var n=Date.now(), st=Date.parse(c.startAt), en=Date.parse(c.endAt);
+    if(n<st){ t="Opens in "+dur(st-n); } else if(n<=en){ k="open"; t="Open now \u2022 closes in "+dur(en-n); } else { k="closed"; t="This exam is closed"; } }
+  $("winChip").className="winchip "+k; $("winTx").textContent=t;
+}
+function sysChecks(){
+  var it=[], okCrypto=!!(window.crypto&&crypto.subtle), stor=true;
+  it.push([okCrypto,"Secure browser"]); it.push([navigator.onLine!==false,"Internet"]);
+  if(S.cfg.behavior&&S.cfg.behavior.forceFullscreen) it.push([fsSupported(),"Full screen"]);
+  try{ localStorage.setItem("xlb:t","1"); localStorage.removeItem("xlb:t"); }catch(_){ stor=false; } it.push([stor,"Storage"]);
+  $("sysChecks").innerHTML=it.map(function(i){ return '<span class="ck'+(i[0]?"":" bad")+'">'+ico(i[0]?"check":"alert")+esc(i[1])+'</span>'; }).join("");
+}
+function sendingHtml(title,text){ return '<div class="sending"><div class="big"></div><h2>'+esc(title)+'</h2><p class="sub">'+esc(text)+'</p></div>'; }
+function nowMs(){ return Date.now()+S.skew; }
+function iso(ms){ return new Date(ms).toISOString(); }
+function sleep(ms){ return new Promise(function(r){setTimeout(r,ms);}); }
+function rnd(n){ var a=new Uint8Array(n); crypto.getRandomValues(a); return a; }
+function hex(u){ return Array.prototype.map.call(u,function(x){return ("0"+x.toString(16)).slice(-2);}).join(""); }
+
+/* ---------- crypto ---------- */
+async function deriveMaster(password, saltB64, iter){
+  var k = await crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveBits"]);
+  var bits = await crypto.subtle.deriveBits({name:"PBKDF2", hash:"SHA-256", salt:b64d(saltB64), iterations:iter}, k, 256);
+  return new Uint8Array(bits);
+}
+async function subKeys(master){
+  var hk = await crypto.subtle.importKey("raw", master, {name:"HMAC", hash:"SHA-256"}, false, ["sign"]);
+  var e = new Uint8Array(await crypto.subtle.sign("HMAC", hk, enc.encode("enc")));
+  var m = new Uint8Array(await crypto.subtle.sign("HMAC", hk, enc.encode("mac")));
+  return {
+    aes: await crypto.subtle.importKey("raw", e, "AES-CBC", false, ["encrypt","decrypt"]),
+    mac: await crypto.subtle.importKey("raw", m, {name:"HMAC", hash:"SHA-256"}, false, ["sign","verify"])
+  };
+}
+function cat(a,b){ var o=new Uint8Array(a.length+b.length); o.set(a,0); o.set(b,a.length); return o; }
+async function openSealed(sealed, master){
+  var K = await subKeys(master), iv=b64d(sealed.iv), ct=b64d(sealed.ct);
+  var ok = await crypto.subtle.verify("HMAC", K.mac, b64d(sealed.mac), cat(iv,ct));
+  if(!ok) throw new Error("BAD_KEY");
+  var pt = await crypto.subtle.decrypt({name:"AES-CBC", iv:iv}, K.aes, ct);
+  return dec.decode(pt);
+}
+async function sealText(text, master){
+  var K = await subKeys(master), iv = rnd(16);
+  var ct = new Uint8Array(await crypto.subtle.encrypt({name:"AES-CBC", iv:iv}, K.aes, enc.encode(text)));
+  var mac = new Uint8Array(await crypto.subtle.sign("HMAC", K.mac, cat(iv,ct)));
+  return {v:1, iv:b64e(iv), ct:b64e(ct), mac:b64e(mac)};
+}
+
+/* ---------- seeded shuffle (per attempt) ---------- */
+function seedFrom(str){ var h=1779033703^str.length; for(var i=0;i<str.length;i++){ h=Math.imul(h^str.charCodeAt(i),3432918353); h=(h<<13)|(h>>>19);} return function(){ h=Math.imul(h^(h>>>16),2246822507); h=Math.imul(h^(h>>>13),3266489909); return (h^=h>>>16)>>>0; }; }
+function mulberry(seedFn){ var a=seedFn(); return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function shuffle(arr, rand){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(rand()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+/* ---------- GitHub (live mode only) ---------- */
+function ghUrl(path){ var g=S.gh; return "https://api.github.com/repos/"+encodeURIComponent(g.owner)+"/"+encodeURIComponent(g.repo)+"/contents/"+path.split("/").map(encodeURIComponent).join("/"); }
+function ghHeaders(){ return {"Authorization":"Bearer "+S.gh.token, "Accept":"application/vnd.github+json", "Content-Type":"application/json"}; }
+/* Create a NEW file (no sha). Returns {status:"created"|"exists", sha, commitDate}. Retries on write conflicts / network blips. */
+async function ghCreate(path, text, message){
+  var body = JSON.stringify({message:message, content:utf8b64(text), branch:S.gh.dataBranch});
+  var lastErr=null;
+  for(var t=0;t<8;t++){
+    try{
+      var r = await fetch(ghUrl(path), {method:"PUT", headers:ghHeaders(), body:body});
+      if(r.status===201||r.status===200){ var j=await r.json(); return {status:"created", sha:j.content&&j.content.sha, commitDate:j.commit&&j.commit.committer&&j.commit.committer.date}; }
+      var txt = await r.text();
+      if(r.status===422 && /sha/i.test(txt)) return {status:"exists"};
+      if(r.status===401||r.status===403){ if(r.status===403 && /rate|abuse|secondary/i.test(txt)){ lastErr=new Error("RATE"); } else throw fatal("The exam service rejected the request (permission). Please tell your invigilator. ["+r.status+"]"); }
+      else if(r.status===404) throw fatal("The exam storage could not be found. Please tell your invigilator. [404]");
+      else if(r.status===409||r.status===422||r.status>=500) lastErr=new Error("CONFLICT "+r.status);
+      else throw fatal("Unexpected response from the exam service ["+r.status+"].");
+    }catch(e){ if(e&&e.fatal) throw e; lastErr=e; }
+    await sleep(400*(t+1)+Math.random()*700);
+  }
+  var ne=new Error("NETWORK"); ne.cause=lastErr; throw ne;
+}
+function fatal(m){ var e=new Error(m); e.fatal=true; return e; }
+async function ghGet(path){
+  for(var t=0;t<4;t++){
+    try{
+      var r = await fetch(ghUrl(path)+"?ref="+encodeURIComponent(S.gh.dataBranch)+"&t="+Date.now(), {headers:ghHeaders(), cache:"no-store"});
+      if(r.status===404) return null;
+      if(r.status===200){ var j=await r.json(); return {sha:j.sha, text:b64utf8(j.content.replace(/\s/g,""))}; }
+      if(r.status===401||r.status===403) throw fatal("The exam service rejected the request (permission). ["+r.status+"]");
+    }catch(e){ if(e&&e.fatal) throw e; }
+    await sleep(500*(t+1));
+  }
+  var ne=new Error("NETWORK"); throw ne;
+}
+async function ghUpdate(path, text, sha, message){
+  for(var t=0;t<5;t++){
+    try{
+      var r = await fetch(ghUrl(path), {method:"PUT", headers:ghHeaders(), body:JSON.stringify({message:message,content:utf8b64(text),sha:sha,branch:S.gh.dataBranch})});
+      if(r.status===200||r.status===201) return true;
+      if(r.status===409||r.status===422){ var g=await ghGet(path); if(g) sha=g.sha; }
+    }catch(e){}
+    await sleep(400*(t+1));
+  }
+  return false;
+}
+
+/* ---------- QR of this login page (generated in the browser - no online service) ---------- */
+function pageUrl(){ return location.href.split("#")[0].split("?")[0]; }
+function renderQR(url){
+  if(PREVIEW){ $("qrBox").textContent="QR appears after deploy"; $("qrUrl").textContent="The QR code for the live exam page is created when you deploy."; return; }
+  try{ var q=qrcode(0,"M"); q.addData(url); q.make(); $("qrBox").innerHTML=q.createSvgTag({scalable:true,margin:1}); $("qrUrl").textContent=url; }
+  catch(e){ $("qrWrap").classList.add("hide"); }
+}
+/* ---------- one exam per device: marker kept in this browser (deterrent; the real per-student lock is the attempt file on GitHub) ---------- */
+function devKey(){ return "xlb:device:"+S.cfg.examId; }
+function getDev(){ try{ return JSON.parse(localStorage.getItem(devKey())); }catch(_){ return null; } }
+function setDev(state,extra){ try{ var o=getDev()||{}; o.state=state; o.at=new Date().toISOString(); if(extra) for(var k in extra) o[k]=extra[k]; localStorage.setItem(devKey(),JSON.stringify(o)); }catch(_){} }
+function hasPendingFor(d){ if(!d||!d.studentId) return false; try{ return !!localStorage.getItem(bkKey(S.cfg.examId,d.studentId,d.attemptNo||1)); }catch(_){ return false; } }
+function blockIfAlreadyAttended(){
+  if(PREVIEW) return false;
+  var d=getDev(); if(!d) return false;
+  var max=Math.max(1,Number((S.cfg&&S.cfg.maxAttempts)||1));
+  var attemptNo=Math.max(1,Number(d.attemptNo||1));
+  if(d.state==="submitted" && attemptNo<max) return false;
+  if(d.state!=="submitted" && hasPendingFor(d)) return false;
+  var when=new Date(d.submittedAt||d.at||Date.now()).toLocaleString(), h;
+  if(d.state==="submitted"){
+    h='<div class="blocked"><div class="big">'+ico("lock")+'</div><h2>Exam already attended</h2><p>This exam has already been attended and submitted from this device (Student ID <b>'+esc(d.studentId||"")+'</b>, '+esc(when)+').</p><p class="sub">You have used all <b>'+max+'</b> allowed attempt(s) for this exam on this device. Please contact your invigilator if you need another attempt.</p></div>';
+  }else{
+    h='<div class="blocked"><div class="big">'+ico("lock")+'</div><h2>Exam already started</h2><p>This exam was already started on this device (Student ID <b>'+esc(d.studentId||"")+'</b>, '+esc(when)+') and was not completed.</p><p class="sub">A second start is not allowed. Please contact your invigilator.</p></div>';
+  }
+  $("scrLogin").innerHTML=h; return true;
+}
+
+/* ---------- boot ---------- */
+async function boot(){
+  setTheme(curTheme()); $("btnTheme").onclick=function(){ setTheme(curTheme()==="dark"?"light":"dark"); }; netUpdate();
+  try{
+    if(PREVIEW){ S.cfg = PREVIEW.config; $("previewBanner").classList.remove("hide"); initPreviewUi(); }
+    else{
+      var r = await fetch("exam-config.json?t="+Date.now(), {cache:"no-store"});
+      if(!r.ok) throw new Error("cfg "+r.status);
+      S.cfg = await r.json();
+    }
+  }catch(e){ show("scrLogin"); $("scrLogin").innerHTML='<div class="blocked"><div class="big">'+ico("alert")+'</div><h2>Exam not available</h2><p class="sub">This exam page could not be loaded. Please check your link or ask your invigilator.</p></div>'; return; }
+  var c=S.cfg;
+  document.title = c.examName+" - "+c.schoolName;
+  applyBrand(c);
+  var sub=(c.subject?c.subject:"")+(c.className?(c.subject?" \u2022 ":"")+c.className:"");
+  $("hSchool").textContent = c.schoolName||"Online Exam";
+  $("hExam").textContent = c.examName+(sub?" \u2022 "+sub:"");
+  $("sideExam").textContent = c.examName||"Exam"; $("sideSub").textContent = sub||(c.schoolName||"");
+  $("mlogo").textContent = initials(c.schoolName,true);
+  if(c.theme&&c.theme.logo){ var lg=$("logo"); lg.onload=function(){lg.classList.remove("hide"); $("mlogo").classList.add("hide");}; lg.onerror=function(){lg.classList.add("hide"); $("mlogo").classList.remove("hide");}; lg.src=c.theme.logo; }
+  renderQR(PREVIEW&&PREVIEW.liveUrl?PREVIEW.liveUrl:pageUrl());
+  if(blockIfAlreadyAttended()) return;
+  $("fName").classList.toggle("hide", !(c.login&&c.login.requireName));
+  $("fEmail").classList.toggle("hide", !(c.login&&c.login.requireEmail));
+  var durationMeta=c.durationMinutes?c.durationMinutes+" min":(c.defaultQuestionSeconds?c.defaultQuestionSeconds+" sec per question":"Per question");
+  var meta=[["Total Marks",c.totalMarks],["Questions",c.questionCount],["Timing",durationMeta]];
+  $("metaBox").innerHTML = meta.map(function(m){return "<div>"+esc(m[0])+"<b>"+esc(m[1])+"</b></div>";}).join("");
+  sysChecks(); winTick(); setInterval(winTick,1000);
+  $("btnLogin").onclick = doLogin; $("btnBegin").onclick = doBegin; $("btnPrev").onclick = goPrevious; $("btnNext").onclick = function(){ finishQuestion("next"); }; $("btnClear").onclick = clearSel;
+  $("ackChk").onchange = function(){ $("btnBegin").disabled = !this.checked; };
+  $("btnEye").onclick = function(){ var i=$("inPass"), s=i.type==="password"; i.type=s?"text":"password"; this.innerHTML=ico(s?"eyeoff":"eye"); this.setAttribute("aria-label",s?"Hide password":"Show password"); i.focus(); };
+  ["inName","inId","inEmail","inPass"].forEach(function(id){
+    $(id).addEventListener("keydown",function(e){ if(e.key==="Enter") doLogin(); });
+    $(id).addEventListener("input",function(){ this.classList.remove("bad"); });
+  });
+  ["keydown","keyup"].forEach(function(t){ $("inPass").addEventListener(t,function(e){ $("capsWarn").classList.toggle("hide",!(e.getModifierState&&e.getModifierState("CapsLock"))); }); });
+  installGuards(); installUx();
+  windowCheck(true);
+  if(!(window.crypto&&crypto.subtle)){ msg("msgLogin","err","This browser cannot run a secure exam. Please open the link in the latest Chrome, Edge, Firefox or Safari."); $("btnLogin").disabled=true; }
+  if(PREVIEW){
+    var d=PREVIEW.demo||{};
+    $("inName").value=d.name||"Demo Student"; $("inId").value=d.id||"DEMO001"; $("inEmail").value=d.email||"demo@example.com"; $("inPass").value=PREVIEW.password||"";
+    $("btnLoginTx").textContent="Start Demo Exam";
+    var dh=$("demoHint"); dh.classList.remove("hide"); dh.innerHTML="<b>Demo login is pre-filled.</b> Student ID <b>"+esc($("inId").value)+"</b> &middot; Password <b>"+esc(PREVIEW.password||"")+"</b>. Just press <b>Start Demo Exam</b>.";
+  }
+}
+function initPreviewUi(){
+  var bar=$("previewBanner"), devs=bar.querySelectorAll("[data-dev]");
+  Array.prototype.forEach.call(devs,function(b){ b.onclick=function(){ var d=b.getAttribute("data-dev"); document.body.setAttribute("data-device",d==="desktop"?"":d); Array.prototype.forEach.call(devs,function(x){ x.classList.toggle("on",x===b); }); }; });
+  $("btnPvAdmin").onclick=function(){ openAdminDemo(true); };
+  $("btnPvRestart").onclick=function(){ location.reload(); };
+  if(!PREVIEW.adminUrl) $("btnPvAdmin").classList.add("hide");
+}
+function openAdminDemo(withResult){
+  var url=PREVIEW&&PREVIEW.adminUrl; if(!url){ toast("The Admin Demo is not available."); return; }
+  var w=null; try{ w=window.open(url,"xlb_admin_demo"); }catch(e){}
+  if(!w){ toast("Please allow pop-ups to open the Admin Demo."); return; }
+  var r=withResult&&S.result;
+  if(r){ var n=0,t=setInterval(function(){ try{ if(!w||w.closed||n++>24){ clearInterval(t); return; } w.postMessage({type:"XLB_PREVIEW_RESULT",result:r},"*"); }catch(e){ clearInterval(t); } },250); }
+}
+function installUx(){
+  window.addEventListener("online",function(){ netUpdate(); toast("Back online"); if(S.retryPending) retrySubmit(); });
+  window.addEventListener("offline",function(){ netUpdate(); toast(S.examActive?"You are offline. Your answers stay on this device - reconnect before submitting.":"You are offline."); });
+  document.addEventListener("keydown",function(e){
+    if(!S.examActive||S.locked||S.overlayOpen||S.confirmOpen) return;
+    if(e.ctrlKey||e.metaKey||e.altKey) return;
+    var q=curQ(); if(!q) return; var k=String(e.key||"").toLowerCase();
+    if(k==="enter"){ if(e.target&&e.target.tagName==="BUTTON") return; e.preventDefault(); if(S.selected!=null) finishQuestion("next"); else toast("Pick an answer, or press Skip."); return; }
+    if(k==="backspace"||k==="delete"){ e.preventDefault(); clearSel(); return; }
+    var i=-1;
+    if(q.type==="True/False"){ if(k==="t"||k==="1") i=0; else if(k==="f"||k==="2") i=1; }
+    else if(k.length===1){ if(k>="a"&&k<="d") i=k.charCodeAt(0)-97; else if(k>="1"&&k<="4") i=+k-1; }
+    if(i>=0&&i<q.shown.length){ e.preventDefault(); selectOpt(q.shown[i].key); }
+  });
+}
+function windowCheck(soft){
+  if(PREVIEW) return true;
+  var c=S.cfg, now=Date.now(), st=Date.parse(c.startAt), en=Date.parse(c.endAt);
+  if(now<st-120000){ msg("msgLogin","info","This exam has not started yet. It opens on "+new Date(st).toLocaleString()+"."); return false; }
+  if(now>en+120000){ msg("msgLogin","err","This exam has ended. It closed on "+new Date(en).toLocaleString()+"."); return false; }
+  if(soft) $("msgLogin").className="msg";
+  return true;
+}
+
+/* ---------- login ---------- */
+async function doLogin(){
+  var b=$("btnLogin"); if(b.disabled) return;
+  var c=S.cfg, name=$("inName").value.trim(), sid=$("inId").value.trim().toUpperCase(), email=$("inEmail").value.trim(), pw=$("inPass").value;
+  $("msgLogin").className="msg";
+  if(c.login.requireName && name.length<2) return bad("inName","Please enter your full name.");
+  if(!/^[A-Z0-9][A-Z0-9_\-]{1,39}$/.test(sid)) return bad("inId","Please enter a valid Student ID (letters, numbers, - or _ only).");
+  if(c.login.requireEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return bad("inEmail","Please enter a valid email address.");
+  if(!pw) return bad("inPass","Please enter the exam password.");
+  if(!windowCheck(false)) return;
+  var label=PREVIEW?"Start Demo Exam":"Login";
+  b.disabled=true; $("btnLoginTx").textContent="Verifying..."; $("msgLogin").className="msg info"; $("msgLogin").innerHTML='<span class="spin"></span>Verifying your details. This takes a few seconds...';
+  try{
+    var master = await deriveMaster(pw, c.kdf.salt, c.kdf.iter), payload;
+    if(PREVIEW){
+      if(pw!==PREVIEW.password) throw new Error("BAD_KEY");
+      payload = PREVIEW.payload;
+    }else{
+      var pr = await fetch(c.payloadFile+"?t="+Date.now(), {cache:"no-store"});
+      if(!pr.ok) throw new Error("NETWORK");
+      payload = JSON.parse(await openSealed(await pr.json(), master));
+    }
+    S.pay = payload; S.student={name:name, id:sid, email:email};
+    S.resultMaster = b64d(payload.resultKey);
+    if(!PREVIEW){
+      S.gh = Object.assign({}, payload.repo, {token:payload.token});
+      S.attempt = await claimAttempt();
+      if(S.attempt.resume){ return resumeSubmit(); }
+    }else{
+      S.attempt = {attemptId:"ATT-PREVIEW-"+hex(rnd(3)).toUpperCase(), attemptNo:1, startedAt:new Date().toISOString()};
+    }
+    prepareExam();
+    b.disabled=false; $("btnLoginTx").textContent=label; $("msgLogin").className="msg";
+    showReady();
+  }catch(e){
+    b.disabled=false; $("btnLoginTx").textContent=label;
+    if(e.message==="BAD_KEY") bad("inPass","Invalid exam password. Please check the password given by your school.");
+    else if(e.fatal) msg("msgLogin","err",e.message);
+    else if(e.userMsg) msg("msgLogin","err",e.userMsg);
+    else msg("msgLogin","err","Network problem - could not reach the exam service. Check your internet connection and try again.");
+  }
+}
+function attemptId(){ return "ATT-"+new Date().getFullYear()+"-"+hex(rnd(4)).toUpperCase(); }
+/* School ID + Exam ID + Student ID is the uniqueness key: the claim file can only be created once per attempt number. */
+async function claimAttempt(){
+  var c=S.cfg, sid=S.student.id, max=c.maxAttempts||1;
+  for(var n=1;n<=max;n++){
+    var tag=sid+"_ATT-"+("00"+n).slice(-3);
+    var apath="attempts/"+c.examId+"/"+tag+".json";
+    var rec={schoolId:c.schoolId, examId:c.examId, studentId:sid, attemptId:attemptId(), attemptNo:n, startedAt:new Date().toISOString(), status:"InProgress"};
+    var r = await ghCreate(apath, JSON.stringify(rec), "attempt "+c.examId+" "+tag);
+    if(r.status==="created"){
+      if(r.commitDate){ S.skew = Date.parse(r.commitDate)-Date.now();
+        var t=Date.now()+S.skew, st=Date.parse(c.startAt), en=Date.parse(c.endAt);
+        if(t<st-60000||t>en+60000){ var gg=await ghGet(apath); if(gg){ await ghDelete(apath, gg.sha); } var e=new Error("window"); e.userMsg="Your device clock does not match the exam window. Please correct the date/time and try again."; throw e; } }
+      rec.sha=r.sha; rec.path=apath; rec.tag=tag; setDev("started",{studentId:sid,attemptId:rec.attemptId,attemptNo:n}); return rec;
+    }
+    var g = await ghGet(apath); var ex = null; try{ ex = g?JSON.parse(g.text):null; }catch(_){}
+    if(ex && ex.status==="Submitted"){ if(n<max) continue; var e1=new Error("done"); e1.userMsg="You have already submitted this exam. A second attempt is not allowed."; throw e1; }
+    /* InProgress: only resumable for result submission if a pending backup exists on this device */
+    var bk = localStorage.getItem(bkKey(c.examId, sid, n));
+    if(bk){ rec=ex||rec; rec.attemptNo=n; rec.tag=tag; rec.path=apath; rec.sha=g&&g.sha; rec.resume=true; return rec; }
+    var e2=new Error("inprogress"); e2.userMsg="An attempt for this Student ID is already in progress or was interrupted. Please contact your invigilator."; throw e2;
+  }
+}
+async function ghDelete(path, sha){ try{ await fetch(ghUrl(path),{method:"DELETE",headers:ghHeaders(),body:JSON.stringify({message:"cancel attempt",sha:sha,branch:S.gh.dataBranch})}); }catch(_){} }
+function bkKey(ex,sid,n){ return "xlb:pending:"+ex+":"+sid+":"+n; }
+
+/* ---------- prepare + ready ---------- */
+function prepareExam(){
+  var c=S.cfg, b=c.behavior||{}, seed=mulberry(seedFrom(S.attempt.attemptId));
+  var qs = S.pay.questions.map(function(q){ return JSON.parse(JSON.stringify(q)); });
+  if(b.randomizeQuestions) qs = shuffle(qs, seed);
+  S.list = qs.map(function(q){ return prepQ(q, b, seed); });
+  S.reserve = (S.pay.reserve||[]).map(function(q){ return prepQ(JSON.parse(JSON.stringify(q)), b, seed); });
+  S.order = S.list.map(function(q){return q.id;});
+}
+function prepQ(q,b,seed){
+  var keys = q.type==="True/False" ? ["True","False"] : ["A","B","C","D"];
+  var items = keys.map(function(k){ return {key:k, text: q.type==="True/False"?k:q.options[k]}; });
+  if(b.randomizeOptions && q.type!=="True/False") items = shuffle(items, seed);
+  q.shown = items; return q;
+}
+function showReady(){
+  var c=S.cfg, s=S.student, nm=s.name||s.id, touch=(window.matchMedia&&matchMedia("(hover:none)").matches);
+  $("candAv").textContent=initials(nm); $("candName").textContent=nm;
+  $("candSub").textContent="ID "+s.id+(s.email?" \u2022 "+s.email:"")+" \u2022 Attempt "+S.attempt.attemptId;
+  var isPerQuestion=(c.durationMinutes<=0 && c.defaultQuestionSeconds>0);
+  var timingValue=c.durationMinutes>0?String(c.durationMinutes):String(c.defaultQuestionSeconds||0);
+  var tiles=[[S.list.length,"Questions"],[c.totalMarks,"Total marks"]];
+  $("readyTiles").innerHTML=tiles.map(function(t){ return "<div class=\"tile\"><b>"+esc(t[0])+"</b><span>"+esc(t[1])+"</span></div>"; }).join("");
+  var timingHtml=isPerQuestion?"<div class=\"tile timing-tile\"><span>Timing</span><b>"+esc(timingValue)+"</b><strong>sec per question</strong></div>":"<div class=\"tile timing-tile\"><span>Timing</span><b>"+esc(timingValue)+"</b><strong>min</strong></div>";
+  $("readyTiles").innerHTML += timingHtml;
+  var r=[];
+  if(c.durationMinutes>0){
+    r.push("The exam has one total time limit for the complete paper.");
+    r.push("You can move back to previous questions and review or change your answers.");
+    r.push("The exam is submitted automatically when the total exam time ends.");
+  }else{
+    r.push("Each question has its own time limit.");
+    r.push("When a question's time expires, it is locked and the next question opens automatically.");
+    r.push("You cannot return to a previous question in this timing mode.");
+  }
+  if(c.behavior.forceFullscreen) r.push("The exam runs in full screen. Do not exit full screen.");
+  if(c.behavior.detectTabChange) r.push("Do not switch tabs or windows. Every such event is recorded"+(c.violation.action==="Replace"?" and may replace your current question":"")+"; after "+c.violation.maxViolations+" violations your exam is submitted automatically.");
+  r.push("Copying, pasting, right-click and printing are disabled.");
+  if(!touch) r.push("Keyboard shortcuts: A-D or 1-4 to choose, T/F for True/False, Enter for next, Backspace to clear.");
+  if(c.instructions) r.push(c.instructions);
+  $("rulesList").innerHTML = r.map(function(x){return "<li>"+ico("check")+"<span>"+esc(x)+"</span></li>";}).join("");
+  $("ackChk").checked=false; $("btnBegin").disabled=true;
+  show("scrReady");
+}
+
+/* ---------- run exam ---------- */
+async function doBegin(){
+  var c=S.cfg; $("btnBegin").disabled=true;
+  if(c.behavior.forceFullscreen) await goFullscreen();
+  S.began=performance.now(); S.beganISO=iso(nowMs()); S.examActive=true;
+  var dl = c.durationMinutes>0 ? nowMs()+c.durationMinutes*60000 : Infinity;
+  var wd = (!PREVIEW && c.endAt) ? Date.parse(c.endAt) : Infinity;
+  if(isNaN(wd)) wd=Infinity;
+  S.gDeadline = dl; S.windowDeadline = wd; S.gBase = {wall: nowMs(), perf: performance.now()};
+  S.idx=0; S.rec=[]; show("scrExam"); renderQ();
+  S.qTimer=setInterval(tick,250);
+}
+function goFullscreen(){ var el=document.documentElement, f=el.requestFullscreen||el.webkitRequestFullscreen; try{ return f?Promise.resolve(f.call(el)).catch(function(){}):Promise.resolve(); }catch(e){ return Promise.resolve(); } }
+function fsSupported(){ var el=document.documentElement; return !!(el.requestFullscreen||el.webkitRequestFullscreen); }
+function isFs(){ return !!(document.fullscreenElement||document.webkitFullscreenElement); }
+function curQ(){ return S.list[S.idx]; }
+function qSeconds(q){ return q.seconds>0 ? q.seconds : (S.cfg.defaultQuestionSeconds||30); }
+function findRecById(id){ var a=S.rec||[]; for(var i=0;i<a.length;i++){ if(a[i].id===id && !a[i].invalidated) return a[i]; } return null; }
+function findAnyRecById(id){ var a=S.rec||[]; for(var i=0;i<a.length;i++){ if(a[i].id===id) return a[i]; } return null; }
+function activeGlobalDeadline(){ var d=S.gDeadline; if(S.windowDeadline!==Infinity) d=Math.min(d,S.windowDeadline); return d; }
+function saveGlobalCurrent(){ if(S.gDeadline===Infinity) return; var q=curQ(); if(!q) return; var old=findRecById(q.id), spent=Math.max(0,(performance.now()-S.qStart)/1000); var r=old||{id:q.id,type:q.type,section:q.section||"",marks:q.marks,neg:q.neg||0,selected:null,timeAllowed:0,secondsSpent:0,timedOut:false,invalidated:false,replacementFor:q.replacementFor||null,shownOrder:q.shown.map(function(o){return o.key;}),answeredAt:null}; r.selected=S.selected; r.secondsSpent=Math.round(spent*10)/10; r.timeAllowed=0; r.answeredAt=iso(nowMs()); if(!old) S.rec.push(r); }
+function finalizeGlobalRecords(){ if(S.gDeadline===Infinity) return; var out=[],seen={}; for(var i=0;i<S.list.length;i++){ var q=S.list[i], r=findAnyRecById(q.id); if(r){ out.push(r); seen[q.id]=true; }else{ out.push({id:q.id,type:q.type,section:q.section||"",marks:q.marks,neg:q.neg||0,selected:null,timeAllowed:0,secondsSpent:0,timedOut:false,invalidated:false,replacementFor:q.replacementFor||null,shownOrder:q.shown.map(function(o){return o.key;}),answeredAt:null}); seen[q.id]=true; } } for(var j=0;j<S.rec.length;j++){ if(S.rec[j].invalidated && !seen[S.rec[j].id]) out.push(S.rec[j]); } S.rec=out; }
+function renderQ(){
+  hideConfirm();
+  var q=curQ(), total=S.list.length, b=S.cfg.behavior||{};
+  var globalMode=(S.gDeadline!==Infinity);
+  S.selected=null; S.locked=false; S.confirmed=false;
+  S.qLimit=globalMode?0:qSeconds(q); S.qStart=performance.now();
+  $("scrExam").classList.toggle("global-mode",globalMode);
+  $("qRing").classList.toggle("hide",globalMode);
+  $("gTimerBox").classList.toggle("hide",!globalMode);
+  $("qNo").innerHTML="Question "+(S.idx+1)+" <small>of "+total+"</small>";
+  $("pBar").style.width=(S.idx/total*100)+"%";
+  var m=[];
+  if(q.section) m.push('<span class="badge sec">'+esc(q.section)+'</span>');
+  m.push('<span class="badge">'+q.marks+(q.marks===1?" mark":" marks")+'</span>');
+  if(b.negativeMarking&&q.neg>0) m.push('<span class="badge neg">-'+q.neg+' if wrong</span>');
+  m.push('<span class="badge sec">'+(q.type==="True/False"?"True / False":"Multiple choice")+'</span>');
+  if(q.replacementFor) m.push('<span class="badge rep">Replacement question</span>');
+  $("qMeta").innerHTML=m.join("");
+  $("qText").textContent=q.text;
+  var h=""; q.shown.forEach(function(o,i){ h+='<button type="button" class="opt" role="radio" aria-checked="false" data-k="'+esc(o.key)+'"><span class="k">'+(q.type==="True/False"?(o.key==="True"?"T":"F"):String.fromCharCode(65+i))+'</span><span class="t">'+esc(o.text)+'</span></button>'; });
+  $("qOpts").innerHTML=h;
+  var saved=findRecById(q.id);
+  if(saved && saved.selected!=null){
+    S.selected=saved.selected;
+    Array.prototype.forEach.call($("qOpts").children,function(x){ var on=x.getAttribute("data-k")===S.selected; x.classList.toggle("sel",on); x.setAttribute("aria-checked",on?"true":"false"); });
+  }
+  Array.prototype.forEach.call($("qOpts").children,function(x){ x.onclick=function(){ selectOpt(x.getAttribute("data-k")); x.blur(); }; });
+  $("btnNext").disabled=false;
+  var last=(S.idx===total-1);
+  if(globalMode){
+    $("qHint").textContent=last?"Review your answers before submitting.":"You can move back and change previous answers.";
+  }else{
+    $("qHint").textContent=last?"Last question":"Skipping is allowed. You cannot come back.";
+  }
+  $("kbdHint").innerHTML=q.type==="True/False"?"<kbd>T</kbd> / <kbd>F</kbd> choose &middot; <kbd>Enter</kbd> next &middot; <kbd>Backspace</kbd> clear":"<kbd>A</kbd>-<kbd>D</kbd> choose &middot; <kbd>Enter</kbd> next &middot; <kbd>Backspace</kbd> clear";
+  updateNextBtn(); paletteRender();
+  tick();
+}
+function selectOpt(key){
+  if(S.locked) return; S.selected=key;
+  if(S.gDeadline!==Infinity) saveGlobalCurrent();
+  Array.prototype.forEach.call($("qOpts").children,function(x){ var on=x.getAttribute("data-k")===key; x.classList.toggle("sel",on); x.setAttribute("aria-checked",on?"true":"false"); });
+  updateNextBtn();
+}
+function clearSel(){
+  if(S.locked||S.selected==null) return; S.selected=null;
+  if(S.gDeadline!==Infinity) saveGlobalCurrent();
+  Array.prototype.forEach.call($("qOpts").children,function(x){ x.classList.remove("sel"); x.setAttribute("aria-checked","false"); });
+  updateNextBtn();
+}
+function updateNextBtn(){
+  var last=(S.idx===S.list.length-1), has=(S.selected!=null), globalMode=(S.gDeadline!==Infinity), b=$("btnNext"), p=$("btnPrev");
+  b.textContent = last ? (has?"Submit Exam":"Submit without answering") : (has?"Next":"Skip");
+  b.className = has?"":"ghost";
+  $("btnClear").classList.toggle("hide",!has);
+  p.classList.toggle("hide",!globalMode || S.idx===0);
+  if(globalMode && S.idx===0) p.classList.add("hide");
+}
+function paletteRender(){
+  var n=S.list.length, p=$("qPalette"), lg=$("qLegend");
+  if(n>80){ p.classList.add("hide"); lg.classList.add("hide"); return; }
+  p.classList.remove("hide"); lg.classList.remove("hide");
+  var h=""; for(var i=0;i<n;i++){ var cl="", r=findAnyRecById(S.list[i].id); if(i===S.idx) cl="cur"; else if(r&&r.invalidated) cl="inv"; else if(r&&r.selected!=null) cl="ans"; else if(i<S.idx) cl="skip"; h+='<i class="'+cl+'" title="Question '+(i+1)+'"></i>'; }
+  p.innerHTML=h;
+}
+function tick(){
+  if(!S.examActive) return;
+  if(S.gDeadline!==Infinity){
+    var gd=activeGlobalDeadline(), gl=(gd-(S.gBase.wall+(performance.now()-S.gBase.perf)))/1000;
+    $("gTimer").innerHTML="Exam time left<b>"+mmss(gl)+"</b>";
+    $("gTimerBox").classList.toggle("low",gl<=300);
+    if(gl<=0) return globalEnd();
+    return;
+  }
+  if(S.windowDeadline!==Infinity){
+    var wl=(S.windowDeadline-(S.gBase.wall+(performance.now()-S.gBase.perf)))/1000;
+    if(wl<=0) return globalEnd("window-over");
+  }
+  var el=(performance.now()-S.qStart)/1000, left=S.qLimit-el, ring=$("qRing");
+  $("qTimer").textContent=mmss(left);
+  var frac=Math.max(0,Math.min(1,left/S.qLimit)); $("qArc").style.strokeDashoffset=String(119.4*(1-frac));
+  ring.classList.toggle("low",left<=5); ring.classList.toggle("warn",left>5&&frac<=0.25);
+  if(left<=0 && !S.locked) finishQuestion("timeout");
+}
+function globalEnd(reason){
+  if(!S.examActive) return;
+  if(S.gDeadline!==Infinity) saveGlobalCurrent();
+  if(S.cfg.behavior.autoSubmit){
+    finalizeGlobalRecords();
+    submitExam(reason||"time-over");
+  }else{
+    S.examActive=false; clearInterval(S.qTimer); finalizeGlobalRecords();
+    $("btnNext").textContent="Submit Exam";
+    $("btnNext").onclick=function(){ submitExam(reason||"time-over"); };
+    $("btnPrev").classList.add("hide");
+    $("qHint").textContent=reason==="window-over"?"The exam window has closed. Please submit your exam.":"Time is over. Please submit your exam.";
+    $("qTimer").textContent="00:00";
+    Array.prototype.forEach.call($("qOpts").children,function(x){x.classList.add("locked");});
+  }
+}
+function recordCurrent(reason, extra){
+  var q=curQ(); if(!q||S.locked) return; S.locked=true;
+  var spent=Math.min(S.qLimit,(performance.now()-S.qStart)/1000);
+  var r={id:q.id,type:q.type,section:q.section||"",marks:q.marks,neg:q.neg||0,selected:S.selected,timeAllowed:S.qLimit,secondsSpent:Math.round(spent*10)/10,timedOut:reason==="timeout",invalidated:false,replacementFor:q.replacementFor||null,shownOrder:q.shown.map(function(o){return o.key;}),answeredAt:iso(nowMs())};
+  if(extra) for(var k in extra) r[k]=extra[k];
+  S.rec.push(r);
+}
+function finishQuestion(reason){
+  if(!S.examActive) return;
+  if(S.gDeadline!==Infinity){
+    saveGlobalCurrent();
+    if(reason==="next"){
+      if(S.idx>=S.list.length-1 && !S.confirmed) return askSubmit();
+      if(S.idx>=S.list.length-1) return submitExam("completed");
+      S.idx++; renderQ();
+    }
+    return;
+  }
+  if(S.locked) return;
+  if(reason==="next" && S.idx>=S.list.length-1 && !S.confirmed){ return askSubmit(); }
+  $("btnNext").disabled=true; Array.prototype.forEach.call($("qOpts").children,function(b){b.classList.add("locked");});
+  recordCurrent(reason);
+  if(S.idx>=S.list.length-1){ return submitExam("completed"); }
+  S.idx++; renderQ();
+}
+function goPrevious(){
+  if(S.gDeadline===Infinity || S.idx<=0 || !S.examActive || S.submitting) return;
+  saveGlobalCurrent();
+  S.idx--;
+  renderQ();
+}
+function askSubmit(){
+  var un=(S.selected==null);
+  showConfirm("Submit your exam?", un?"You have not answered the last question. After you submit, you cannot change any answer.":"This is the last question. After you submit, you cannot change any answer.", "Submit Exam", function(){ S.confirmed=true; finishQuestion("next"); }, "Go back");
+}
+function showConfirm(title,text,okLabel,onOk,cancelLabel){
+  S.confirmOpen=true; $("ovlIco").className="ico q"; $("ovlIco").innerHTML=ico("info");
+  $("ovlTitle").textContent=title; $("ovlText").textContent=text;
+  $("ovlCancel").classList.remove("hide"); $("ovlCancel").textContent=cancelLabel||"Cancel"; $("ovlBtn").textContent=okLabel;
+  $("ovlBtn").onclick=function(){ hideConfirm(); onOk(); }; $("ovlCancel").onclick=hideConfirm;
+  $("ovl").classList.remove("hide"); try{ $("ovlBtn").focus(); }catch(_){}
+}
+function hideConfirm(){ if(!S.confirmOpen) return; S.confirmOpen=false; $("ovl").classList.add("hide"); $("ovlCancel").classList.add("hide"); }
+
+/* ---------- guards & violations ---------- */
+function logEvt(type,sev,action){ var q=S.examActive?curQ():null; var e={studentId:S.student?S.student.id:"",examId:S.cfg.examId,attemptId:S.attempt?S.attempt.attemptId:"",type:type,severity:sev,timestamp:iso(nowMs()),currentQuestion:q?q.id:"",questionNo:S.examActive?S.idx+1:0,action:action||""}; S.log.push(e); return e; }
+function installGuards(){
+  var stop=function(e){ if(S.examActive||true){ e.preventDefault(); } };
+  ["contextmenu","copy","cut","paste","dragstart","selectstart"].forEach(function(t){ document.addEventListener(t,function(e){ var tag=(e.target&&e.target.tagName)||""; if((t==="paste"||t==="copy"||t==="cut"||t==="selectstart"||t==="contextmenu")&&/INPUT|TEXTAREA/.test(tag)&&!S.examActive) return; e.preventDefault(); if(S.examActive&&(t==="copy"||t==="paste"||t==="cut"||t==="contextmenu")) logEvt(t+"-blocked","info","blocked"); }); });
+  document.addEventListener("keydown",function(e){
+    var k=(e.key||"").toLowerCase(), ctrl=e.ctrlKey||e.metaKey, bad=false;
+    if(ctrl&&["c","v","x","a","p","s","u","f","g","h","j","o","r","l","t","n","w"].indexOf(k)>-1) bad=true;
+    if(ctrl&&e.shiftKey&&["i","j","c","k","n","t"].indexOf(k)>-1) bad=true;
+    if(["f12","f5","f11","printscreen","f3","f6","f7"].indexOf(k)>-1) bad=true;
+    if(e.altKey&&["arrowleft","arrowright","tab","f4"].indexOf(k)>-1) bad=true;
+    if(bad){ if(/INPUT/.test((e.target&&e.target.tagName)||"")&&!S.examActive&&(ctrl&&["c","v","x","a"].indexOf(k)>-1)) return; e.preventDefault(); e.stopPropagation(); if(S.examActive) logEvt("shortcut-blocked:"+(ctrl?"Ctrl+":"")+(e.shiftKey?"Shift+":"")+k,"info","blocked"); if(k==="printscreen"){ try{navigator.clipboard.writeText("");}catch(_){} } }
+  },true);
+  window.addEventListener("beforeunload",function(e){ if(S.examActive&&!S.submitted){ e.preventDefault(); e.returnValue=""; } });
+  var c=function(){ return S.cfg&&S.cfg.behavior; };
+  document.addEventListener("visibilitychange",function(){ if(document.hidden&&c()&&c().detectTabChange) violation("tab-hidden"); });
+  window.addEventListener("blur",function(){ if(c()&&c().detectTabChange) setTimeout(function(){ if(!document.hasFocus()) violation("window-focus-lost"); },150); });
+  ["fullscreenchange","webkitfullscreenchange"].forEach(function(t){ document.addEventListener(t,function(){ if(!isFs()&&c()&&c().forceFullscreen&&fsSupported()) violation("fullscreen-exit"); }); });
+}
+function violation(type){
+  if(!S.examActive||S.submitting||S.overlayOpen) return;
+  var now=performance.now(); if(now-S.lastViolAt<2500) return; S.lastViolAt=now;
+  var v=S.cfg.violation, q=curQ(), action="warning";
+  var count=S.violations.length+1;
+  if(count>=v.maxViolations){ action="auto-submit"; }
+  else if(v.action==="Replace" && !q.replacementFor && S.replacements<v.maxReplacements && S.reserve.length>0 && !S.locked){ action="question-replaced"; }
+  var e=logEvt(type,"violation",action); S.violations.push(e);
+  if(action==="auto-submit"){ recordCurrent("violation"); return submitExam("violations"); }
+  if(action==="question-replaced"){
+    var rep=S.reserve.shift(); S.replacements++; rep.replacementFor=q.id;
+    recordCurrent("violation",{invalidated:true,selected:null,replacedBy:rep.id});
+    S.list.splice(S.idx+1,0,rep); S.idx++; renderQ();
+    return overlay("Violation recorded","You left the exam page. The question you were on has been cancelled and replaced with a new one. Violation "+count+" of "+v.maxViolations+". Reaching "+v.maxViolations+" will submit your exam automatically.");
+  }
+  overlay("Warning - violation recorded","You left the exam page or exited full screen. This event has been recorded. Violation "+count+" of "+v.maxViolations+". Reaching "+v.maxViolations+" will submit your exam automatically.");
+}
+function overlay(title,text){
+  hideConfirm(); S.overlayOpen=true; $("ovlIco").className="ico"; $("ovlIco").innerHTML=ico("alert");
+  $("ovlTitle").textContent=title; $("ovlText").textContent=text; $("ovlCancel").classList.add("hide"); $("ovlBtn").textContent="I understand - Continue";
+  $("ovl").classList.remove("hide");
+  $("ovlBtn").onclick=async function(){ $("ovl").classList.add("hide"); S.overlayOpen=false; if(S.cfg.behavior.forceFullscreen&&!isFs()) await goFullscreen(); };
+}
+
+/* ---------- scoring & submit ---------- */
+function score(){
+  var neg=!!S.cfg.behavior.negativeMarking, tot=0, got=0, cor=0, wr=0, un=0, answers=[];
+  S.rec.forEach(function(r){
+    if(r.invalidated){ answers.push(r); return; }
+    tot+=r.marks; var q=findQ(r.id), ok=false;
+    if(r.selected==null){ un++; r.result="unanswered"; r.awarded=0; }
+    else if(String(r.selected)===String(q.answer)){ cor++; got+=r.marks; r.result="correct"; r.awarded=r.marks; }
+    else { wr++; r.result="wrong"; r.awarded=neg?-r.neg:0; got+=r.awarded; }
+    answers.push(r);
+  });
+  return {total:tot, got:Math.max(0,got), correct:cor, wrong:wr, unanswered:un, answers:answers};
+}
+function findQ(id){ var a=S.pay.questions.concat(S.pay.reserve||[]); for(var i=0;i<a.length;i++) if(a[i].id===id) return a[i]; return {}; }
+function buildResult(reason){
+  var c=S.cfg; if(S.gDeadline!==Infinity) finalizeGlobalRecords(); var sc=score(), sub=nowMs(), start=Date.parse(S.beganISO);
+  var res={schemaVersion:1, schoolId:c.schoolId, examId:c.examId, attemptId:S.attempt.attemptId, attemptNo:S.attempt.attemptNo,
+    studentId:S.student.id, studentName:S.student.name, email:S.student.email,
+    startedAt:S.beganISO, submittedAt:iso(sub), durationSeconds:Math.round((sub-start)/1000),
+    totalMarks:sc.total, configuredTotalMarks:c.totalMarks, obtainedMarks:sc.got, percentage:sc.total>0?Math.round(sc.got/sc.total*10000)/100:0,
+    correct:sc.correct, wrong:sc.wrong, unanswered:sc.unanswered, violationCount:S.violations.length,
+    submitReason:reason, status:"Submitted", questionOrder:S.order, violations:S.log, userAgent:navigator.userAgent};
+  if(c.result.saveAnswers) res.answers=sc.answers.map(function(r){ var o={}; for(var k in r) o[k]=r[k]; return o; });
+  return res;
+}
+async function submitExam(reason){
+  if(S.submitting||S.submitted) return; S.submitting=true; S.examActive=false; clearInterval(S.qTimer); hideConfirm();
+  if(document.fullscreenElement){ try{document.exitFullscreen();}catch(_){} }
+  show("scrDone"); $("doneBody").innerHTML=sendingHtml("Submitting your exam","Please do not close this page...");
+  S.result = buildResult(reason);
+  await sendResult();
+}
+async function sendResult(){
+  var c=S.cfg, r=S.result;
+  try{
+    if(PREVIEW){ await sleep(600); if($("simFail").checked) throw new Error("NETWORK"); return doneOk(r,false,true); }
+    var sealed = await sealText(JSON.stringify(r), S.resultMaster);
+    var key=bkKey(c.examId,S.student.id,S.attempt.attemptNo);
+    try{ localStorage.setItem(key, JSON.stringify(sealed)); }catch(_){}
+    var path="results/"+c.examId+"/"+S.attempt.tag+".json";
+    var out = await ghCreate(path, JSON.stringify(sealed), "result "+c.examId+" "+S.attempt.tag);
+    if(out.status==="exists"){
+      /* Idempotent: a result for this attempt already exists. Confirm it belongs to this attempt before reporting success. */
+      var g=await ghGet(path); var same=false;
+      try{ var prev=JSON.parse(await openSealed(JSON.parse(g.text), S.resultMaster)); same = prev.attemptId===r.attemptId; r=prev; }catch(_){}
+      if(!same){ var er=new Error("dup"); er.fatal=true; er.message="A result for this Student ID already exists for this exam. A second submission was not accepted."; throw er; }
+      await markSubmitted(); try{localStorage.removeItem(key);}catch(_){}
+      return doneOk(r,true,false);
+    }
+    await markSubmitted(); try{localStorage.removeItem(key);}catch(_){}
+    S.submitted=true; doneOk(r,false,false);
+  }catch(e){
+    S.submitting=false;
+    var m = e&&e.fatal ? e.message : "Your answers could not be sent - network problem. Your answers are kept safely on this device. Reconnect and press Retry. Do not close this page.";
+    var fatalErr=!!(e&&e.fatal);
+    S.retryPending=!fatalErr;
+    $("doneBody").innerHTML='<div class="center"><div class="okmark" style="background:var(--bad-bg);color:var(--bad);border-color:var(--bad-line)">'+ico("alert")+'</div><h2 style="color:var(--bad)">Submission not completed</h2></div><div class="msg err">'+esc(m)+'</div>'+(fatalErr?"":'<p class="sub center" style="margin-top:12px">It will retry automatically when your connection returns.</p><button class="full" id="btnRetry">'+ico("redo")+' Retry Submission</button>');
+    var rb=$("btnRetry"); if(rb) rb.onclick=retrySubmit;
+  }
+}
+function retrySubmit(){
+  if(S.submitting||S.submitted) return; S.retryPending=false; S.submitting=true;
+  $("doneBody").innerHTML=sendingHtml("Retrying","Sending your answers..."); sendResult();
+}
+function receiptText(r){
+  var L=[S.cfg.schoolName||"Online Exam","SUBMISSION RECEIPT","",
+    "Exam      : "+S.cfg.examName,"Exam ID   : "+r.examId,"Student   : "+(r.studentName||"")+" ("+r.studentId+")","Attempt ID: "+r.attemptId,
+    "Submitted : "+new Date(r.submittedAt).toLocaleString()];
+  if(S.cfg.result.visibility==="Show Score to Student") L.push("Score     : "+r.obtainedMarks+" / "+r.totalMarks+" ("+r.percentage+"%)");
+  L.push("","Keep this receipt as proof of submission.");
+  return L.join("\r\n");
+}
+function dlReceipt(r){
+  try{ var blob=new Blob([receiptText(r)],{type:"text/plain"}), a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="Receipt_"+r.examId+"_"+r.studentId+".txt"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },1500); }
+  catch(e){ toast("Could not create the receipt file."); }
+}
+async function markSubmitted(){
+  if(!S.attempt||!S.attempt.path) return;
+  try{ var g=await ghGet(S.attempt.path); if(!g) return; var o=JSON.parse(g.text); if(o.status==="Submitted") return; o.status="Submitted"; o.submittedAt=S.result.submittedAt; await ghUpdate(S.attempt.path, JSON.stringify(o), g.sha, "attempt submitted"); }catch(_){}
+}
+function doneOk(r,already,preview){
+  S.submitted=true; S.retryPending=false; clearInterval(S.qTimer);
+  if(!preview) setDev("submitted",{studentId:r.studentId,attemptId:r.attemptId,attemptNo:r.attemptNo,submittedAt:r.submittedAt});
+  var showScore = S.cfg.result.visibility==="Show Score to Student" || preview;
+  var pct=Math.max(0,Math.min(100,Number(r.percentage)||0));
+  var h='<div class="okmark">'+ico("check")+'</div><h2 class="center">'+(already?"Already submitted":"Submitted successfully")+'</h2><p class="center sub">'+(already?"Your earlier submission is on record.":"Your answers have been received.")+'</p>';
+  if(preview) h+='<div class="msg info">Preview only - nothing was saved or published.</div>';
+  if(showScore){
+    h+='<div class="scorewrap"><div class="sring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="trk" cx="60" cy="60" r="52"/><circle class="prg" id="sArc" cx="60" cy="60" r="52"/></svg><div class="num"><div>'+pct+'%<small>'+esc(r.obtainedMarks)+' / '+esc(r.totalMarks)+'</small></div></div></div>'
+      +'<div class="stats3"><div class="g"><b>'+esc(r.correct)+'</b><span>Correct</span></div><div class="r"><b>'+esc(r.wrong)+'</b><span>Wrong</span></div><div class="y"><b>'+esc(r.unanswered)+'</b><span>Unanswered</span></div></div></div>';
+  }
+  h+='<div class="receipt"><div class="h">Submission receipt</div><div class="kv"><b>Student</b><span>'+esc(r.studentName||"")+" ("+esc(r.studentId)+')</span><b>Exam ID</b><span>'+esc(r.examId)+'</span><b>Attempt ID</b><span>'+esc(r.attemptId)+'</span><b>Submitted at</b><span>'+esc(new Date(r.submittedAt).toLocaleString())+'</span></div></div>';
+  h+='<p class="center sub">'+(showScore?"":"Your result will be shared by your school. ")+'You may now close this page.</p>';
+  h+='<div class="actions"><button type="button" class="ghost" id="btnRcpt">'+ico("down")+' Download receipt</button>';
+  if(preview){ if(PREVIEW&&PREVIEW.adminUrl) h+='<button type="button" id="btnPvAdmin2">'+ico("admin")+' Open Admin Demo &amp; view result</button>'; h+='<button type="button" class="ghost" id="btnPvAgain">'+ico("redo")+' Restart preview</button>'; }
+  h+='</div>';
+  $("doneBody").innerHTML=h;
+  var rc=$("btnRcpt"); if(rc) rc.onclick=function(){ dlReceipt(r); };
+  var a2=$("btnPvAdmin2"); if(a2) a2.onclick=function(){ openAdminDemo(true); };
+  var a3=$("btnPvAgain"); if(a3) a3.onclick=function(){ location.reload(); };
+  if(showScore){ var arc=$("sArc"); if(arc) setTimeout(function(){ arc.style.strokeDashoffset=String(326.7*(1-pct/100)); },60); }
+}
+/* Resume path: result was built before but could not be saved (connection lost). */
+async function resumeSubmit(){
+  var c=S.cfg, key=bkKey(c.examId,S.student.id,S.attempt.attemptNo), sealed=null;
+  try{ sealed=JSON.parse(localStorage.getItem(key)); }catch(_){}
+  if(!sealed){ return msg("msgLogin","err","An attempt for this Student ID is already in progress or was interrupted. Please contact your invigilator."); }
+  try{ S.result = JSON.parse(await openSealed(sealed, S.resultMaster)); }catch(_){ return msg("msgLogin","err","Saved answers on this device could not be read. Please contact your invigilator."); }
+  S.attempt.attemptId=S.result.attemptId; show("scrDone"); $("doneBody").innerHTML=sendingHtml("Sending your saved answers","Please do not close this page..."); S.submitting=true; await sendResult();
+}
+boot();
+</script>
+</body>
+</html>
